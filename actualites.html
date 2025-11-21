@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTUALITÉS | PRODJEKT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #2D5BFF; --accent: #e0005b; --text-main: #ffffff; --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.15); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #050505; color: white; font-family: 'Space Grotesk', sans-serif; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
+        .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; }
+        header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; padding: 10px 30px; background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .logo-img { max-height: 45px; }
+        nav ul { display: flex; gap: 30px; list-style: none; }
+        nav a { color: #ccc; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
+        nav a:hover { color: white; }
+        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; }
+        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
+        
+        /* ANIMATIONS */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .news-section { padding: 150px 10% 50px; }
+        .page-title { font-family: 'Syne'; font-size: 4rem; text-transform: uppercase; margin-bottom: 50px; text-align: center; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .news-card { background: rgba(20, 20, 20, 0.6); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; transition: 0.4s; display: flex; flex-direction: column; height: 100%; backdrop-filter: blur(10px); }
+        .news-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .news-img { width: 100%; height: 200px; object-fit: cover; }
+        .news-content { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        .news-date { font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+        .news-title { font-family: 'Syne'; font-size: 1.5rem; margin-bottom: 15px; line-height: 1.3; }
+        .news-excerpt { color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+        .read-more { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        .read-more i { color: var(--accent); transition: 0.3s; }
+        .news-card:hover .read-more i { transform: translateX(5px); }
+        footer { border-top: 1px solid var(--glass-border); padding: 40px; text-align: center; font-size: 0.9rem; color: #888; background: rgba(0,0,0,0.9); }
+        @media (max-width: 768px) { header { width: 95%; padding: 10px; } nav { display: none; } .page-title { font-size: 2.5rem; } }
+    </style>
+</head>
+<body>
+    <div class="global-video-container"><video autoplay muted loop playsinline><source src="https://www.prodjekt.fr/wp-content/uploads/2025/11/1121.mp4" type="video/mp4"></video></div>
+    <div class="global-video-overlay"></div>
+    <header>
+        <a href="index.html" class="logo-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="Logo Prodjekt" class="logo-img"></a>
+        <nav><ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="cle-en-main.html">Clé en main</a></li><li><a href="actualites.html" style="color:white;">L'actu</a></li></ul></nav>
+        <a href="index.html#contact" class="cta-btn">Demander un Devis</a>
+    </header>
+    <section class="news-section">
+        <h1 class="page-title reveal">L'ACTU</h1>
+        <div class="news-grid">
+            <article class="news-card reveal"><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800" class="news-img" alt="News"><div class="news-content"><span class="news-date">21 NOVEMBRE 2025</span><h2 class="news-title">Nouveau Kit L-Acoustics K3</h2><p class="news-excerpt">Acquisition du système K3, idéal pour les jauges moyennes.</p><a href="#" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a></div></article>
+            <article class="news-card reveal"><img src="https://images.unsplash.com/photo-1514525253440-b393452e8d03?w=800" class="news-img" alt="News"><div class="news-content"><span class="news-date">15 OCTOBRE 2025</span><h2 class="news-title">Retour sur le Festival Electro</h2><p class="news-excerpt">Découvrez les coulisses techniques de l'été.</p><a href="#" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a></div></article>
+            <article class="news-card reveal"><img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" class="news-img" alt="News"><div class="news-content"><span class="news-date">02 SEPTEMBRE 2025</span><h2 class="news-title">Recrutement Techniciens</h2><p class="news-excerpt">Nous recherchons des talents passionnés.</p><a href="#" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a></div></article>
+        </div>
+    </section>
+    <footer><p>&copy; 2025 PRODJEKT. Partenaire Technique Événementiel.</p></footer>
+    <script>
+        function reveal(){var e=document.querySelectorAll(".reveal");for(var t=0;t<e.length;t++){var r=window.innerHeight;e[t].getBoundingClientRect().top<r-150&&e[t].classList.add("active")}}window.addEventListener("scroll",reveal),reveal();
+    </script>
+</body>
+</html>

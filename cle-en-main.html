@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFFRE CLÉ EN MAIN | PRODJEKT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #2D5BFF; --accent: #e0005b; --text-main: #ffffff; --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.15); --footer-bg: rgba(10, 10, 10, 0.95); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #050505; color: white; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
+        .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; }
+        header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; padding: 10px 30px; background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .logo-img { max-height: 45px; }
+        nav ul { display: flex; gap: 30px; list-style: none; }
+        nav a { color: #ccc; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
+        nav a:hover { color: white; }
+        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; }
+        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
+        
+        /* ANIMATIONS */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .page-header { padding: 180px 10% 80px; text-align: center; }
+        .page-title { font-family: 'Syne'; font-size: 4rem; text-transform: uppercase; margin-bottom: 20px; line-height: 1; }
+        .page-subtitle { color: #ccc; max-width: 700px; margin: 0 auto; font-size: 1.2rem; line-height: 1.6; }
+        .process-section { padding: 0 10% 100px; }
+        .process-grid { display: grid; grid-template-columns: 1fr; gap: 60px; }
+        .process-card { background: rgba(20, 20, 20, 0.6); border: 1px solid var(--glass-border); border-radius: 30px; padding: 50px; backdrop-filter: blur(15px); display: flex; align-items: center; gap: 50px; transition: 0.4s; position: relative; overflow: hidden; }
+        .process-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .process-card::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--accent); }
+        .step-number { font-family: 'Syne'; font-size: 5rem; color: rgba(255,255,255,0.1); position: absolute; top: 20px; right: 30px; font-weight: 800; }
+        .process-icon { font-size: 3rem; color: var(--accent); margin-bottom: 20px; display: inline-block; background: rgba(224,0,91,0.1); padding: 20px; border-radius: 20px; }
+        .process-content h2 { font-family: 'Syne'; font-size: 2rem; margin-bottom: 15px; }
+        .process-content p { color: #ccc; line-height: 1.7; margin-bottom: 20px; }
+        .process-list li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; color: white; font-weight: 500; }
+        .process-list li i { color: var(--primary); }
+        .final-cta { text-align: center; padding: 50px 0; }
+        .final-cta h3 { font-family: 'Syne'; font-size: 2.5rem; margin-bottom: 30px; }
+        footer { border-top: 1px solid var(--glass-border); padding: 80px 10% 40px; background: var(--footer-bg); color: #888; font-size: 0.9rem; text-align: center; }
+        @media (max-width: 768px) { header { width: 95%; padding: 10px; } nav { display: none; } .page-title { font-size: 2.5rem; } .process-card { flex-direction: column; text-align: center; padding: 30px; gap: 20px; } .process-content { text-align: left; } }
+    </style>
+</head>
+<body>
+    <div class="global-video-container"><video autoplay muted loop playsinline><source src="https://www.prodjekt.fr/wp-content/uploads/2025/11/1121.mp4" type="video/mp4"></video></div>
+    <div class="global-video-overlay"></div>
+    <header>
+        <a href="index.html" class="logo-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="Logo Prodjekt" class="logo-img"></a>
+        <nav><ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="cle-en-main.html" style="color:white;">Clé en main</a></li><li><a href="actualites.html">L'actu</a></li></ul></nav>
+        <a href="index.html#contact" class="cta-btn">Demander un Devis</a>
+    </header>
+    <section class="page-header reveal"><h1 class="page-title">Gestion de Projet <br><span style="color:var(--accent)">Clé en Main</span></h1><p class="page-subtitle">Ne vous souciez plus de la technique. Nous prenons en charge l'intégralité de la production.</p></section>
+    <section class="process-section">
+        <div class="process-grid">
+            <div class="process-card reveal"><div class="step-number">01</div><div><i class="fas fa-pencil-ruler process-icon"></i><div class="process-content"><h2>Bureau d'Études</h2><p>Nous traduisons vos idées en solutions techniques concrètes. Plans, simulations 3D et faisabilité.</p><ul class="process-list"><li><i class="fas fa-check"></i> Repérage technique</li><li><i class="fas fa-check"></i> Plans 3D (WYSIWYG)</li></ul></div></div></div>
+            <div class="process-card reveal"><div class="step-number">02</div><div><i class="fas fa-tasks process-icon" style="color:var(--primary); background:rgba(45,91,255,0.1)"></i><div class="process-content"><h2>Coordination</h2><p>Un interlocuteur unique pilote l'ensemble des corps de métiers. Nous gérons les plannings et la logistique.</p><ul class="process-list"><li><i class="fas fa-check"></i> Gestion des équipes</li><li><i class="fas fa-check"></i> Planning millimétré</li></ul></div></div></div>
+            <div class="process-card reveal"><div class="step-number">03</div><div><i class="fas fa-rocket process-icon" style="color:#fff; background:rgba(255,255,255,0.1)"></i><div class="process-content"><h2>Exploitation</h2><p>Le jour J, nous sommes aux commandes. Nos régisseurs généraux s'assurent que tout se déroule comme prévu.</p><ul class="process-list"><li><i class="fas fa-check"></i> Direction technique</li><li><i class="fas fa-check"></i> Astreinte permanente</li></ul></div></div></div>
+        </div>
+        <div class="final-cta reveal"><h3>Prêt à nous confier les clés ?</h3><a href="index.html#contact" class="cta-btn" style="padding: 15px 40px; font-size: 1rem;">Démarrer le projet</a></div>
+    </section>
+    <footer><p>&copy; 2025 PRODJEKT. Partenaire Technique Événementiel.</p></footer>
+    <script>
+        function reveal(){var e=document.querySelectorAll(".reveal");for(var t=0;t<e.length;t++){var r=window.innerHeight;e[t].getBoundingClientRect().top<r-150&&e[t].classList.add("active")}}window.addEventListener("scroll",reveal),reveal();
+    </script>
+</body>
+</html>
