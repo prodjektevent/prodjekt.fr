@@ -14,7 +14,7 @@
         /* --- VARIABLES --- */
         :root {
             --primary: #2D5BFF; 
-            --accent: #e0005b; 
+            --accent: #e0005b; /* ROSE PRODJEKT */
             --text-main: #ffffff;
             --text-muted: #cccccc;
             --glass: rgba(255, 255, 255, 0.05);
@@ -23,7 +23,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        body { background-color: transparent; color: var(--text-main); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; width: 100%; }
+        body { background-color: transparent; color: var(--text-main); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
         html { scroll-behavior: smooth; background-color: #000; scroll-padding-top: 100px; }
         a { text-decoration: none; cursor: pointer; transition: 0.3s; }
         ul { list-style: none; }
@@ -57,6 +57,7 @@
         }
         nav a:hover::after { width: 100%; }
 
+        /* BOUTON DEVIS */
         .cta-btn {
             background: white; color: black; padding: 10px 25px; border-radius: 50px;
             font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white;
@@ -123,12 +124,8 @@
         .section-padding { padding: 100px 10%; }
         .grid-title { font-family: 'Syne', sans-serif; font-size: 3rem; margin-bottom: 60px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); text-transform: uppercase; text-align: center; }
         
-        /* CORRECTIF MOBILE BENTO GRID */
-        .bento-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-        }
+        /* GRILLE RESPONSIVE */
+        .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         
         .card { 
             background: rgba(255,255,255,0.03); 
@@ -137,24 +134,28 @@
             transition: 0.4s; position: relative; overflow: hidden; 
             display: flex; flex-direction: column; justify-content: space-between; 
             height: 300px; backdrop-filter: blur(10px); 
-            min-width: 0; /* Important pour empêcher l'overflow flex/grid */
+            /* Empêche le dépassement sur mobile */
+            min-width: 0; 
         }
         
         .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%); z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
         .card:hover::before { opacity: 1; }
         .card::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(224, 0, 91, 0.4), transparent 40%); z-index: -1; border-radius: 20px; opacity: 0; transition: opacity 0.5s; }
         .card:hover::after { opacity: 1; }
+        
         .card-content { position: relative; z-index: 1; }
         .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .card-icon { font-size: 2rem; margin-bottom: 15px; color: white; transition: 0.3s;}
         .card:hover .card-icon { color: var(--accent); transform: scale(1.1); }
         
-        /* TITRES DES CARTES : Gestion de la césure pour mobile */
+        /* CORRECTIF TITRES LONGS */
         .card h3 { 
-            font-size: 1.3rem; margin-bottom: 10px; 
-            font-family: 'Syne', sans-serif; text-transform: uppercase; 
-            word-wrap: break-word; hyphens: auto;
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem); /* Taille adaptative */
+            margin-bottom: 10px; font-family: 'Syne', sans-serif; text-transform: uppercase;
+            word-wrap: break-word; /* Coupe proprement si trop long */
+            hyphens: auto;
         }
+        
         .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
         .card-link { margin-top: auto; color: white; font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; position: relative; z-index: 1; }
         .card:hover .card-link i { transform: translateX(5px); color: var(--primary); }
@@ -190,8 +191,8 @@
         .submit-btn { width: 100%; padding: 20px; margin-top: 20px; background: linear-gradient(45deg, var(--primary), var(--accent)); border: none; border-radius: 12px; color: white; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(224, 0, 91, 0.4); }
 
-        /* --- FOOTER --- */
-        footer { border-top: 1px solid var(--glass-border); padding: 80px 10% 40px; background: var(--footer-bg); color: var(--text-muted); font-size: 0.95rem; text-align: center; /* Centrage global */ }
+        /* --- FOOTER CENTRÉ --- */
+        footer { border-top: 1px solid var(--glass-border); padding: 80px 10% 40px; background: var(--footer-bg); color: var(--text-muted); font-size: 0.95rem; text-align: center; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
         .footer-col h4 { color: white; font-family: 'Syne'; margin-bottom: 25px; font-size: 1.2rem; }
         .footer-logo { max-width: 150px; margin: 0 auto 20px auto; display: block; }
@@ -208,29 +209,21 @@
         @media (max-width: 768px) {
             header { width: 100%; padding: 10px; border-radius: 0; top: 0; background: rgba(10, 10, 10, 0.9); }
             .logo-img { max-height: 35px; }
-            nav { display: none; } /* Menu burger à implémenter sur WP ou CSS */
-            .cta-btn { font-size: 0.7rem; padding: 8px 15px; }
+            nav { display: none; } /* À remplacer par un vrai menu burger WP */
+            
+            /* Réduction marges mobiles */
+            .section-padding { padding: 60px 5%; }
+            .glass-form-container { padding: 20px; }
             
             .hero h1 { font-size: 1.8rem; }
             .intro-section { padding: 50px 5%; gap: 30px; text-align: center; }
             .sticker-wrapper { margin: 0 auto; }
             
-            .section-padding { padding: 60px 5%; } /* Moins de padding latéral */
-            
-            /* CORRECTION GRILLE MOBILE */
-            .bento-grid { 
-                grid-template-columns: 1fr; /* 1 colonne */
-                gap: 20px;
-            }
-            .card { 
-                height: auto; /* Hauteur auto */
-                min-height: 250px; 
-                padding: 20px; 
-            }
+            .bento-grid { grid-template-columns: 1fr; gap: 20px; }
+            .card { height: auto; min-height: 250px; padding: 20px; }
             
             .form-grid, .feature-list, .footer-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
-            .glass-form-container { padding: 20px; }
             .tech-gallery { flex-direction: column; height: 600px; } 
             .tech-item:hover { flex: 2; }
         }
