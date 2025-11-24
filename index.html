@@ -14,7 +14,7 @@
         /* --- VARIABLES --- */
         :root {
             --primary: #2D5BFF; 
-            --accent: #e0005b; /* ROSE PRODJEKT */
+            --accent: #e0005b; 
             --text-main: #ffffff;
             --text-muted: #cccccc;
             --glass: rgba(255, 255, 255, 0.05);
@@ -33,7 +33,7 @@
         .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
         .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E"); }
 
-        /* --- HEADER --- */
+        /* --- HEADER DESKTOP --- */
         header {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 95%; max-width: 1200px; padding: 10px 30px;
@@ -47,22 +47,47 @@
         .logo-wrapper { display: flex; align-items: center; }
         .logo-img { max-height: 45px; width: auto; display: block; }
 
-        nav ul { display: flex; gap: 30px; }
-        nav a {
+        /* Navigation Desktop */
+        .desktop-nav ul { display: flex; gap: 30px; }
+        .desktop-nav a {
             color: var(--text-muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; position: relative;
         }
-        nav a:hover { color: white; }
-        nav a::after {
+        .desktop-nav a:hover { color: white; }
+        .desktop-nav a::after {
             content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--accent); transition: 0.3s;
         }
-        nav a:hover::after { width: 100%; }
+        .desktop-nav a:hover::after { width: 100%; }
+
+        /* Bouton Burger (Mobile) - Caché par défaut */
+        .burger-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        /* Menu Mobile Overlay - Caché par défaut */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 1001;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transform: translateX(100%); /* Caché à droite */
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .mobile-menu-overlay.active { transform: translateX(0); } /* Visible */
+        
+        .mobile-menu-overlay ul { display: flex; flex-direction: column; gap: 30px; text-align: center; }
+        .mobile-menu-overlay a { font-family: 'Syne'; font-size: 2rem; color: white; text-transform: uppercase; }
+        .mobile-menu-overlay .cta-btn { margin-top: 30px; display: inline-block; }
 
         /* BOUTON DEVIS */
         .cta-btn {
             background: white; color: black; padding: 10px 25px; border-radius: 50px;
             font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white;
-            animation: pulseBtn 3s infinite;
-            white-space: nowrap; /* Empêche le texte de passer à la ligne */
+            animation: pulseBtn 3s infinite; white-space: nowrap;
         }
         @keyframes pulseBtn {
             0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
@@ -101,7 +126,6 @@
         .intro-text { flex: 1; min-width: 300px; }
         .intro-text h2 { font-family: 'Syne'; font-size: 2.5rem; margin-bottom: 20px; line-height: 1.2; }
         .intro-text p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; }
-        
         .brand-highlight { color: var(--accent); font-weight: 700; }
         .brand-highlight-link { color: var(--accent); font-weight: 700; text-decoration: underline; transition: 0.3s; }
         .brand-highlight-link:hover { color: white; text-shadow: 0 0 10px var(--accent); }
@@ -123,44 +147,38 @@
         /* --- BENTO GRID --- */
         .section-padding { padding: 100px 10%; }
         .grid-title { font-family: 'Syne', sans-serif; font-size: 3rem; margin-bottom: 60px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); text-transform: uppercase; text-align: center; }
-        
-        /* GRILLE RESPONSIVE */
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        
         .card { 
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid var(--glass-border); 
-            border-radius: 20px; padding: 30px; 
-            transition: 0.4s; position: relative; overflow: hidden; 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); 
+            border-radius: 20px; padding: 30px; transition: 0.4s; 
+            position: relative; overflow: hidden; 
             display: flex; flex-direction: column; justify-content: space-between; 
             height: 300px; backdrop-filter: blur(10px); 
-            /* Empêche le dépassement sur mobile */
-            min-width: 0; 
+            min-width: 0; /* Fix pour éviter le débordement sur mobile */
         }
-        
         .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%); z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
         .card:hover::before { opacity: 1; }
         .card::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(224, 0, 91, 0.4), transparent 40%); z-index: -1; border-radius: 20px; opacity: 0; transition: opacity 0.5s; }
         .card:hover::after { opacity: 1; }
-        
         .card-content { position: relative; z-index: 1; }
         .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .card-icon { font-size: 2rem; margin-bottom: 15px; color: white; transition: 0.3s;}
         .card:hover .card-icon { color: var(--accent); transform: scale(1.1); }
         
-        /* CORRECTIF TITRES LONGS */
+        /* CORRECTIF TEXTES LONGS MOBILE */
         .card h3 { 
-            font-size: clamp(1.1rem, 1.5vw, 1.3rem); /* Taille adaptative */
-            margin-bottom: 10px; font-family: 'Syne', sans-serif; text-transform: uppercase;
-            word-wrap: break-word; /* Coupe proprement si trop long */
-            hyphens: auto;
+            font-size: 1.3rem; margin-bottom: 10px; 
+            font-family: 'Syne', sans-serif; text-transform: uppercase;
+            overflow-wrap: break-word; /* Force le passage à la ligne */
+            word-wrap: break-word;
+            hyphens: manual;
         }
         
         .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
         .card-link { margin-top: auto; color: white; font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; position: relative; z-index: 1; }
         .card:hover .card-link i { transform: translateX(5px); color: var(--primary); }
 
-        /* --- DETAILS CENTRÉS --- */
+        /* --- DETAILS --- */
         .expertise-detail-section { border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); }
         .detail-content { max-width: 1000px; margin: 0 auto 40px auto; text-align: center; }
         .lead-text { font-size: 1.5rem; color: white; margin-bottom: 20px; font-weight: 500; }
@@ -191,7 +209,7 @@
         .submit-btn { width: 100%; padding: 20px; margin-top: 20px; background: linear-gradient(45deg, var(--primary), var(--accent)); border: none; border-radius: 12px; color: white; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(224, 0, 91, 0.4); }
 
-        /* --- FOOTER CENTRÉ --- */
+        /* --- FOOTER --- */
         footer { border-top: 1px solid var(--glass-border); padding: 80px 10% 40px; background: var(--footer-bg); color: var(--text-muted); font-size: 0.95rem; text-align: center; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
         .footer-col h4 { color: white; font-family: 'Syne'; margin-bottom: 25px; font-size: 1.2rem; }
@@ -205,25 +223,31 @@
         .social-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
         .copyright { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; font-size: 0.8rem; opacity: 0.6; }
 
-        /* --- MEDIA QUERIES MOBILE (CORRECTIONS) --- */
+        /* --- MEDIA QUERIES MOBILE --- */
         @media (max-width: 768px) {
-            header { width: 100%; padding: 10px; border-radius: 0; top: 0; background: rgba(10, 10, 10, 0.9); }
-            .logo-img { max-height: 35px; }
-            nav { display: none; } /* À remplacer par un vrai menu burger WP */
+            header { width: 100%; padding: 15px; border-radius: 0; top: 0; background: rgba(10, 10, 10, 0.9); }
+            .logo-img { max-height: 30px; }
             
-            /* Réduction marges mobiles */
-            .section-padding { padding: 60px 5%; }
-            .glass-form-container { padding: 20px; }
+            /* Cacher le menu desktop et le bouton */
+            .desktop-nav, .desktop-cta { display: none; }
             
+            /* Afficher le bouton burger */
+            .burger-menu-btn { display: block; }
+
             .hero h1 { font-size: 1.8rem; }
             .intro-section { padding: 50px 5%; gap: 30px; text-align: center; }
             .sticker-wrapper { margin: 0 auto; }
             
+            /* Grille mobile */
             .bento-grid { grid-template-columns: 1fr; gap: 20px; }
             .card { height: auto; min-height: 250px; padding: 20px; }
             
+            /* Correctif tailles polices mobile */
+            .card h3 { font-size: 1.1rem; }
+            
             .form-grid, .feature-list, .footer-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
+            .glass-form-container { padding: 20px; }
             .tech-gallery { flex-direction: column; height: 600px; } 
             .tech-item:hover { flex: 2; }
         }
@@ -240,15 +264,32 @@
 
     <header>
         <a href="#" class="logo-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="Logo Prodjekt" class="logo-img"></a>
-        <nav>
+        
+        <nav class="desktop-nav">
             <ul>
                 <li><a href="realisations.html">Nos réalisations</a></li>
                 <li><a href="cle-en-main.html">Clé en main</a></li>
                 <li><a href="actualites.html">L'actu</a></li>
             </ul>
         </nav>
-        <a href="#contact" class="cta-btn">Demander un Devis</a>
+        <a href="#contact" class="cta-btn desktop-cta">Demander un Devis</a>
+
+        <div class="burger-menu-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
     </header>
+
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div style="position: absolute; top: 20px; right: 20px; font-size: 2rem; color: white; cursor: pointer;" onclick="toggleMenu()">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul>
+            <li><a href="realisations.html" onclick="toggleMenu()">Nos réalisations</a></li>
+            <li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li>
+            <li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li>
+        </ul>
+        <a href="#contact" class="cta-btn" onclick="toggleMenu()" style="margin-top: 20px;">Demander un Devis</a>
+    </div>
 
     <section class="hero">
         <div class="hero-video-wrapper">
@@ -280,18 +321,10 @@
 
     <section class="trust-section reveal">
         <div class="trust-grid">
-            <a href="https://www.synpase.fr/" target="_blank" class="trust-link">
-                <div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/labelogo-removebg-preview.png" alt="Label Spectacle Vivant" class="trust-img"><div class="trust-name">Spectacle Vivant®</div><div class="trust-desc">Label 439 : Prestataire technique expert</div></div>
-            </a>
-            <a href="https://www.prestadd.fr/" target="_blank" class="trust-link">
-                <div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/logo_label_prestadd-removebg-preview.png" alt="Label Prestadd" class="trust-img"><div class="trust-name">Prestadd®</div><div class="trust-desc">Label 184 : Engagement RSE & Durable</div></div>
-            </a>
-            <a href="https://www.l-acoustics.com/" target="_blank" class="trust-link">
-                <div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2024/11/653c31a72017e45a1a845bab_lacoustic-Logo-1080x1080-1.png" alt="L-Acoustics" class="trust-img"><div class="trust-name">L-Acoustics</div><div class="trust-desc">Partenaire Système Audio Certifié</div></div>
-            </a>
-            <a href="https://www.synpase.fr/" target="_blank" class="trust-link">
-                <div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/logo-synpase-removebg-preview.png" alt="Synpase" class="trust-img"><div class="trust-name">SYNPASE</div><div class="trust-desc">Membre du Syndicat National</div></div>
-            </a>
+            <a href="https://www.synpase.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/labelogo-removebg-preview.png" alt="Label Spectacle Vivant" class="trust-img"><div class="trust-name">Spectacle Vivant®</div><div class="trust-desc">Label 439 : Prestataire technique expert</div></div></a>
+            <a href="https://www.prestadd.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/logo_label_prestadd-removebg-preview.png" alt="Label Prestadd" class="trust-img"><div class="trust-name">Prestadd®</div><div class="trust-desc">Label 184 : Engagement RSE & Durable</div></div></a>
+            <a href="https://www.l-acoustics.com/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2024/11/653c31a72017e45a1a845bab_lacoustic-Logo-1080x1080-1.png" alt="L-Acoustics" class="trust-img"><div class="trust-name">L-Acoustics</div><div class="trust-desc">Partenaire Système Audio Certifié</div></div></a>
+            <a href="https://www.synpase.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/logo-synpase-removebg-preview.png" alt="Synpase" class="trust-img"><div class="trust-name">SYNPASE</div><div class="trust-desc">Membre du Syndicat National</div></div></a>
         </div>
     </section>
 
@@ -306,109 +339,50 @@
             <div class="card reveal"><div class="card-content"><i class="fas fa-monument card-icon"></i><h3>Commémoration</h3><p>Solennité & Patrimoine.</p></div><a href="#commemoration" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
             <div class="card reveal"><div class="card-content"><i class="fas fa-guitar card-icon"></i><h3>Concert</h3><p>Live, Son & Lumière.</p></div><a href="#concert" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
             <div class="card reveal"><div class="card-content"><i class="fas fa-ticket-alt card-icon"></i><h3>Festival</h3><p>Solutions XXL.</p></div><a href="#festival" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            
-            <div class="card reveal">
-                <div class="card-content"><i class="fas fa-key card-icon"></i><h3>Clé en main</h3><p>Gestion A à Z.</p></div>
-                <a href="cle-en-main.html" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
-            </div>
+            <div class="card reveal"><div class="card-content"><i class="fas fa-key card-icon"></i><h3>Clé en main</h3><p>Gestion A à Z.</p></div><a href="cle-en-main.html" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
         </div>
     </section>
 
     <section id="entreprise" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">ÉVÉNEMENT ENTREPRISE</h2>
-        <div class="detail-content">
-            <p class="lead-text">Sublimez votre image de marque.</p>
-            <div class="detail-text"><p>Conventions et séminaires avec une précision absolue.</p></div>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800');"></div>
-            </div>
+        <div class="detail-content"><p class="lead-text">Sublimez votre image de marque.</p><div class="detail-text"><p>Conventions et séminaires avec une précision absolue.</p></div>
+            <div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800');"></div></div>
         </div>
     </section>
 
     <section id="mapping" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">MAPPING VIDÉO</h2>
-        <div class="detail-content">
-            <p class="lead-text">Transformez l'architecture.</p>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1535016120720-40c6874c3b13?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800');"></div>
-            </div>
-        </div>
+        <div class="detail-content"><p class="lead-text">Transformez l'architecture.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1535016120720-40c6874c3b13?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800');"></div></div></div>
     </section>
 
     <section id="defile" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">DÉFILÉ DE MODE</h2>
-        <div class="detail-content">
-            <p class="lead-text">Précision lumineuse pour le Fashion.</p>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1537832816519-689ad163238b?auto=format&fit=crop&w=800');"></div>
-            </div>
-        </div>
+        <div class="detail-content"><p class="lead-text">Précision lumineuse pour le Fashion.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1537832816519-689ad163238b?auto=format&fit=crop&w=800');"></div></div></div>
     </section>
 
     <section id="emotion" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">E-MOTION</h2>
-        <div class="detail-content">
-            <p class="lead-text">Streaming et plateaux TV.</p>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1586864387789-628af9dac626?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533750349088-cd8773a6575c?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1516321165247-4aa89a48df28?auto=format&fit=crop&w=800');"></div>
-            </div>
-        </div>
+        <div class="detail-content"><p class="lead-text">Streaming et plateaux TV.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1586864387789-628af9dac626?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533750349088-cd8773a6575c?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1516321165247-4aa89a48df28?auto=format&fit=crop&w=800');"></div></div></div>
     </section>
 
     <section id="sport" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">ÉVÉNEMENT SPORTIF</h2>
-        <div class="detail-content">
-            <p class="lead-text">Grands écrans et sonorisation stade.</p>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1522770179533-24471fcdba45?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=800');"></div>
-            </div>
-        </div>
+        <div class="detail-content"><p class="lead-text">Grands écrans et sonorisation stade.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1522770179533-24471fcdba45?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=800');"></div></div></div>
     </section>
 
     <section id="commemoration" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">COMMÉMORATION</h2>
-        <div class="detail-content">
-            <p class="lead-text">Mise en valeur du patrimoine.</p>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1548502499-1715af6bbc4f?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800');"></div>
-            </div>
-        </div>
+        <div class="detail-content"><p class="lead-text">Mise en valeur du patrimoine.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1548502499-1715af6bbc4f?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800');"></div></div></div>
     </section>
 
     <section id="concert" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">CONCERT</h2>
-        <div class="detail-content">
-            <p class="lead-text">Live Experience et Lights Shows.</p>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7ea9959f0716?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1459749411177-2a2960949dc7?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800');"></div>
-            </div>
-        </div>
+        <div class="detail-content"><p class="lead-text">Live Experience et Lights Shows.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7ea9959f0716?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1459749411177-2a2960949dc7?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800');"></div></div></div>
     </section>
 
     <section id="festival" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">FESTIVAL</h2>
-        <div class="detail-content">
-            <p class="lead-text">Technique XXL pour l'Open Air.</p>
-            <div class="tech-gallery">
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533174072545-e8d4aa97d848?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800');"></div>
-                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1514525253440-b393452e8d03?auto=format&fit=crop&w=800');"></div>
-            </div>
-        </div>
+        <div class="detail-content"><p class="lead-text">Technique XXL pour l'Open Air.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533174072545-e8d4aa97d848?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1514525253440-b393452e8d03?auto=format&fit=crop&w=800');"></div></div></div>
     </section>
 
     <section id="contact" class="contact-section reveal">
@@ -464,7 +438,13 @@
     </footer>
 
 <script>
-    /* 1. STICKER 3D */
+    /* MENU MOBILE TOGGLE */
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('active');
+    }
+
+    /* STICKER 3D */
     const wrapper = document.querySelector('.sticker-wrapper');
     const sticker = document.querySelector('.sticker-30ans');
     if(wrapper) {
@@ -485,7 +465,7 @@
         });
     }
 
-    /* 2. SPOTLIGHT */
+    /* SPOTLIGHT */
     const cardsContainer = document.getElementById("cards-container");
     const cards = document.querySelectorAll(".card");
     if(cardsContainer) {
@@ -500,7 +480,7 @@
         }
     }
 
-    /* 3. SCROLL REVEAL */
+    /* SCROLL REVEAL */
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
