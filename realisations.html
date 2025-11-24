@@ -4,53 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOS RÉALISATIONS | PRODJEKT</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --primary: #2D5BFF; --accent: #e0005b; --text-main: #ffffff; --text-muted: #cccccc; --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.15); --footer-bg: rgba(10, 10, 10, 0.95); }
+        /* --- VARIABLES & BASE --- */
+        :root {
+            --primary: #2D5BFF; 
+            --accent: #e0005b; 
+            --text-main: #ffffff;
+            --text-muted: #cccccc;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --footer-bg: rgba(10, 10, 10, 0.95);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        body { background-color: #050505; color: white; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        body { background-color: transparent; color: var(--text-main); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        html { scroll-behavior: smooth; background-color: #000; scroll-padding-top: 100px; }
+        a { text-decoration: none; cursor: pointer; transition: 0.3s; }
         ul { list-style: none; }
 
-        .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        /* --- FOND GLOBAL --- */
+        .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; overflow: hidden; }
         .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
-        .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; }
+        .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E"); }
 
-        /* HEADER & NAV */
-        header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; padding: 10px 30px; background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 1200px; padding: 10px 30px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 100px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .logo-wrapper { display: flex; align-items: center; }
         .logo-img { max-height: 45px; width: auto; display: block; }
+
+        /* Navigation Desktop */
         .desktop-nav ul { display: flex; gap: 30px; }
-        .desktop-nav a { color: var(--text-muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; position: relative; }
+        .desktop-nav a {
+            color: var(--text-muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; position: relative;
+        }
         .desktop-nav a:hover, .desktop-nav a.active { color: white; }
-        .desktop-nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--accent); transition: 0.3s; }
+        .desktop-nav a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--accent); transition: 0.3s;
+        }
         .desktop-nav a:hover::after { width: 100%; }
+
+        /* Bouton Burger (Mobile) */
         .burger-menu-btn { display: none; font-size: 1.5rem; color: white; cursor: pointer; margin-left: 15px; }
-        .mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px); z-index: 1001; display: flex; flex-direction: column; justify-content: center; align-items: center; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Menu Mobile Overlay */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px); z-index: 1001;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         .mobile-menu-overlay.active { transform: translateX(0); }
         .mobile-menu-overlay ul { display: flex; flex-direction: column; gap: 30px; text-align: center; }
         .mobile-menu-overlay a { font-family: 'Syne'; font-size: 2rem; color: white; text-transform: uppercase; }
-        
-        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white; white-space: nowrap; }
-        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px); }
 
-        /* CONTENU PAGE */
+        /* BOUTON DEVIS */
+        .cta-btn {
+            background: white; color: black; padding: 10px 25px; border-radius: 50px;
+            font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white;
+            animation: pulseBtn 3s infinite; white-space: nowrap;
+        }
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        .cta-btn:hover { 
+            background: var(--accent); border-color: var(--accent); color: white;
+            box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px);
+            animation: none;
+        }
+        
+        /* --- TITRES ANIMÉS --- */
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary), #fff, var(--accent));
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: gradientText 5s ease infinite;
+        }
+        @keyframes gradientText { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+        
+        /* --- CONTENU PAGE --- */
         .page-header { padding: 150px 5% 50px; text-align: center; }
         .page-title { font-family: 'Syne'; font-size: 4rem; text-transform: uppercase; margin-bottom: 20px; }
-        .page-subtitle { color: #ccc; max-width: 600px; margin: 0 auto; }
+        .page-subtitle { color: #ccc; max-width: 600px; margin: 0 auto; font-size: 1.2rem; }
+
+        /* MASONRY GRID GALERIE */
         .gallery-container { padding: 50px 5%; column-count: 3; column-gap: 20px; }
-        .gallery-item { break-inside: avoid; margin-bottom: 20px; border-radius: 15px; overflow: hidden; position: relative; border: 1px solid var(--glass-border); cursor: pointer; }
+        .gallery-item { 
+            break-inside: avoid; margin-bottom: 20px; border-radius: 15px; 
+            overflow: hidden; position: relative; border: 1px solid var(--glass-border); cursor: pointer; 
+        }
         .gallery-item img { width: 100%; display: block; transition: transform 0.6s ease; }
-        .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); opacity: 0; transition: 0.4s; display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; }
+        .gallery-overlay { 
+            position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); 
+            opacity: 0; transition: 0.4s; display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; 
+        }
         .gallery-item:hover img { transform: scale(1.1); }
         .gallery-item:hover .gallery-overlay { opacity: 1; }
+        
         .project-cat { color: var(--accent); font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
         .project-title { font-family: 'Syne'; font-size: 1.5rem; margin-bottom: 5px; }
+        
+        /* LIGHTBOX */
+        #img-lightbox { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.95); z-index: 3000; 
+            display: flex; justify-content: center; align-items: center; display: none; 
+        }
+        #lightbox-img { max-width: 90vw; max-height: 90vh; border: 2px solid var(--accent); border-radius: 10px; }
+
+        /* ANIMATIONS */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* FOOTER COMPLET (STYLE V27) */
+        /* FOOTER */
         footer { border-top: 1px solid var(--glass-border); padding: 80px 10% 40px; background: var(--footer-bg); color: var(--text-muted); font-size: 0.95rem; text-align: center; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
         .footer-col h4 { color: white; font-family: 'Syne'; margin-bottom: 25px; font-size: 1.2rem; }
@@ -64,25 +145,35 @@
         .social-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
         .copyright { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; font-size: 0.8rem; opacity: 0.6; }
 
+        /* MEDIA QUERIES */
         @media (max-width: 768px) {
-            .gallery-container { column-count: 1; }
             header { width: 100%; padding: 10px 15px; border-radius: 0; top: 0; background: rgba(10, 10, 10, 0.9); justify-content: space-between; }
             .logo-img { max-height: 30px; }
             .desktop-nav { display: none; }
             .burger-menu-btn { display: block; }
             .cta-btn { font-size: 0.7rem; padding: 8px 12px; margin: 0 10px; }
+            
             .page-title { font-size: 2.5rem; }
+            .gallery-container { column-count: 1; }
             .footer-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
     <div class="global-video-container"><video autoplay muted loop playsinline><source src="https://www.prodjekt.fr/wp-content/uploads/2025/11/1121.mp4" type="video/mp4"></video></div>
     <div class="global-video-overlay"></div>
 
     <header>
         <a href="index.html" class="logo-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="Logo Prodjekt" class="logo-img"></a>
-        <nav class="desktop-nav"><ul><li><a href="realisations.html" class="active">Nos réalisations</a></li><li><a href="cle-en-main.html">Clé en main</a></li><li><a href="actualites.html">L'actu</a></li></ul></nav>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="realisations.html" class="active">Nos réalisations</a></li>
+                <li><a href="cle-en-main.html">Clé en main</a></li>
+                <li><a href="actualites.html">L'actu</a></li>
+                <li><a href="catalogue.html">Catalogue scénique</a></li>
+            </ul>
+        </nav>
         <a href="index.html#contact" class="cta-btn">Demander un Devis</a>
         <div class="burger-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </header>
@@ -93,18 +184,44 @@
             <li><a href="realisations.html" onclick="toggleMenu()">Nos réalisations</a></li>
             <li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li>
             <li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li>
+            <li><a href="catalogue.html" onclick="toggleMenu()">Catalogue scénique</a></li>
         </ul>
     </div>
 
-    <div class="page-header reveal"><h1 class="page-title">Nos Réalisations</h1><p class="page-subtitle">Découvrez une sélection de nos projets les plus marquants. Technique, précision et émotion.</p></div>
+    <div class="page-header reveal">
+        <h1 class="page-title"><span class="gradient-text">Nos Réalisations</span></h1>
+        <p class="page-subtitle">Découvrez une sélection de nos projets les plus marquants.</p>
+    </div>
 
     <div class="gallery-container">
-        <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1470229722913-7ea9959f0716?w=800" alt="Concert"><div class="gallery-overlay"><span class="project-cat">Concert Live</span><h3 class="project-title">Main Stage Festival 2024</h3></div></div>
-        <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" alt="Event"><div class="gallery-overlay"><span class="project-cat">Soirée Corporate</span><h3 class="project-title">Gala Tech Summit</h3></div></div>
-        <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800" alt="Party"><div class="gallery-overlay"><span class="project-cat">Lancement Produit</span><h3 class="project-title">Showroom Automobile</h3></div></div>
-        <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1533174072545-e8d4aa97d848?w=800" alt="Lights"><div class="gallery-overlay"><span class="project-cat">Architecture</span><h3 class="project-title">Mapping Cathédrale</h3></div></div>
-        <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800" alt="Crowd"><div class="gallery-overlay"><span class="project-cat">Festival</span><h3 class="project-title">Summer Vibes</h3></div></div>
-        <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f436?w=800" alt="Stage"><div class="gallery-overlay"><span class="project-cat">Sport</span><h3 class="project-title">Marathon Night Run</h3></div></div>
+        <div class="gallery-item reveal" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="https://images.unsplash.com/photo-1470229722913-7ea9959f0716?w=800" alt="Concert">
+            <div class="gallery-overlay"><span class="project-cat">Concert Live</span><h3 class="project-title">Main Stage Festival</h3></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800" alt="Event">
+            <div class="gallery-overlay"><span class="project-cat">Soirée Corporate</span><h3 class="project-title">Gala Tech Summit</h3></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800" alt="Party">
+            <div class="gallery-overlay"><span class="project-cat">Lancement Produit</span><h3 class="project-title">Showroom Automobile</h3></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="https://images.unsplash.com/photo-1533174072545-e8d4aa97d848?w=800" alt="Lights">
+            <div class="gallery-overlay"><span class="project-cat">Architecture</span><h3 class="project-title">Mapping Cathédrale</h3></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800" alt="Crowd">
+            <div class="gallery-overlay"><span class="project-cat">Festival</span><h3 class="project-title">Summer Vibes</h3></div>
+        </div>
+        <div class="gallery-item reveal" onclick="openLightbox(this.querySelector('img').src)">
+            <img src="https://images.unsplash.com/photo-1506157786151-b8491531f436?w=800" alt="Stage">
+            <div class="gallery-overlay"><span class="project-cat">Sport</span><h3 class="project-title">Marathon Night Run</h3></div>
+        </div>
+    </div>
+
+    <div id="img-lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="">
     </div>
 
     <footer>
@@ -119,6 +236,9 @@
     <script>
         function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');}
         function reveal(){var e=document.querySelectorAll(".reveal");for(var t=0;t<e.length;t++){var r=window.innerHeight;e[t].getBoundingClientRect().top<r-150&&e[t].classList.add("active")}}window.addEventListener("scroll",reveal),reveal();
+        
+        function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('img-lightbox').style.display = 'flex'; }
+        function closeLightbox() { document.getElementById('img-lightbox').style.display = 'none'; }
     </script>
 </body>
 </html>
