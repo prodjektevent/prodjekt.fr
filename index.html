@@ -33,7 +33,7 @@
         .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
         .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E"); }
 
-        /* --- HEADER DESKTOP --- */
+        /* --- HEADER --- */
         header {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 95%; max-width: 1200px; padding: 10px 30px;
@@ -58,30 +58,28 @@
         }
         .desktop-nav a:hover::after { width: 100%; }
 
-        /* Bouton Burger (Mobile) - Caché par défaut */
+        /* Bouton Burger (Mobile) */
         .burger-menu-btn {
             display: none;
             font-size: 1.5rem;
             color: white;
             cursor: pointer;
-            z-index: 1002;
+            margin-left: 15px;
         }
 
-        /* Menu Mobile Overlay - Caché par défaut */
+        /* Menu Mobile Overlay */
         .mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: rgba(10, 10, 10, 0.98);
             backdrop-filter: blur(15px);
             z-index: 1001;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateX(100%); /* Caché à droite */
+            transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .mobile-menu-overlay.active { transform: translateX(0); } /* Visible */
-        
+        .mobile-menu-overlay.active { transform: translateX(0); }
         .mobile-menu-overlay ul { display: flex; flex-direction: column; gap: 30px; text-align: center; }
         .mobile-menu-overlay a { font-family: 'Syne'; font-size: 2rem; color: white; text-transform: uppercase; }
-        .mobile-menu-overlay .cta-btn { margin-top: 30px; display: inline-block; }
 
         /* BOUTON DEVIS */
         .cta-btn {
@@ -110,10 +108,8 @@
         .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 3.5vw, 3rem); line-height: 1.1; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; text-transform: uppercase; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .gradient-text { background: linear-gradient(45deg, var(--primary), #fff, var(--accent)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientText 5s ease infinite; }
         @keyframes gradientText { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
-        
         .shimmer-text { display: inline-block; font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; background: linear-gradient(to right, #555 20%, #fff 50%, #555 80%); background-size: 200% auto; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 4s linear infinite; margin-bottom: 50px; }
         @keyframes shine { to { background-position: 200% center; } }
-        
         .scroll-indicator { position: absolute; bottom: 40px; z-index: 3; animation: bounce 2s infinite; opacity: 0.7; }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
 
@@ -129,7 +125,6 @@
         .brand-highlight { color: var(--accent); font-weight: 700; }
         .brand-highlight-link { color: var(--accent); font-weight: 700; text-decoration: underline; transition: 0.3s; }
         .brand-highlight-link:hover { color: white; text-shadow: 0 0 10px var(--accent); }
-
         .sticker-wrapper { display: inline-block; perspective: 1000px; cursor: pointer; padding: 20px; }
         .sticker-30ans { width: 220px; height: auto; transition: transform 0.1s ease-out, filter 0.3s ease; filter: drop-shadow(0 0 15px rgba(224, 0, 91, 0.3)); will-change: transform; }
 
@@ -148,14 +143,7 @@
         .section-padding { padding: 100px 10%; }
         .grid-title { font-family: 'Syne', sans-serif; font-size: 3rem; margin-bottom: 60px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); text-transform: uppercase; text-align: center; }
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); 
-            border-radius: 20px; padding: 30px; transition: 0.4s; 
-            position: relative; overflow: hidden; 
-            display: flex; flex-direction: column; justify-content: space-between; 
-            height: 300px; backdrop-filter: blur(10px); 
-            min-width: 0; /* Fix pour éviter le débordement sur mobile */
-        }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; transition: 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 300px; backdrop-filter: blur(10px); min-width: 0; }
         .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%); z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
         .card:hover::before { opacity: 1; }
         .card::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(224, 0, 91, 0.4), transparent 40%); z-index: -1; border-radius: 20px; opacity: 0; transition: opacity 0.5s; }
@@ -165,13 +153,10 @@
         .card-icon { font-size: 2rem; margin-bottom: 15px; color: white; transition: 0.3s;}
         .card:hover .card-icon { color: var(--accent); transform: scale(1.1); }
         
-        /* CORRECTIF TEXTES LONGS MOBILE */
+        /* TITRE CARTE : CORRECTIF MOBILE */
         .card h3 { 
-            font-size: 1.3rem; margin-bottom: 10px; 
-            font-family: 'Syne', sans-serif; text-transform: uppercase;
-            overflow-wrap: break-word; /* Force le passage à la ligne */
-            word-wrap: break-word;
-            hyphens: manual;
+            font-size: 1.3rem; margin-bottom: 10px; font-family: 'Syne', sans-serif; text-transform: uppercase; 
+            word-wrap: break-word; overflow-wrap: break-word; hyphens: auto;
         }
         
         .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
@@ -223,27 +208,41 @@
         .social-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
         .copyright { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; font-size: 0.8rem; opacity: 0.6; }
 
-        /* --- MEDIA QUERIES MOBILE --- */
+        /* --- MEDIA QUERIES MOBILE (CORRECTIFS V31) --- */
         @media (max-width: 768px) {
-            header { width: 100%; padding: 15px; border-radius: 0; top: 0; background: rgba(10, 10, 10, 0.9); }
+            /* HEADER : Disposition Logo | CTA | Burger */
+            header { 
+                width: 100%; padding: 10px 15px; border-radius: 0; top: 0; 
+                background: rgba(10, 10, 10, 0.9);
+                justify-content: space-between;
+            }
             .logo-img { max-height: 30px; }
             
-            /* Cacher le menu desktop et le bouton */
-            .desktop-nav, .desktop-cta { display: none; }
+            /* Menu desktop masqué */
+            .desktop-nav { display: none; }
             
-            /* Afficher le bouton burger */
+            /* Afficher bouton burger */
             .burger-menu-btn { display: block; }
+            
+            /* CTA Mobile : Visible mais plus petit */
+            .cta-btn { 
+                font-size: 0.7rem; 
+                padding: 8px 12px; 
+                margin: 0 10px; /* Espacement entre logo et burger */
+            }
 
             .hero h1 { font-size: 1.8rem; }
             .intro-section { padding: 50px 5%; gap: 30px; text-align: center; }
             .sticker-wrapper { margin: 0 auto; }
             
-            /* Grille mobile */
+            .section-padding { padding: 60px 5%; }
             .bento-grid { grid-template-columns: 1fr; gap: 20px; }
             .card { height: auto; min-height: 250px; padding: 20px; }
             
-            /* Correctif tailles polices mobile */
-            .card h3 { font-size: 1.1rem; }
+            /* CORRECTIF CARTE TITRE MOBILE */
+            .card h3 { 
+                font-size: 1.1rem; /* Plus petit */
+            }
             
             .form-grid, .feature-list, .footer-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
@@ -272,7 +271,8 @@
                 <li><a href="actualites.html">L'actu</a></li>
             </ul>
         </nav>
-        <a href="#contact" class="cta-btn desktop-cta">Demander un Devis</a>
+        
+        <a href="#contact" class="cta-btn">Demander un Devis</a>
 
         <div class="burger-menu-btn" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
@@ -288,7 +288,6 @@
             <li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li>
             <li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li>
         </ul>
-        <a href="#contact" class="cta-btn" onclick="toggleMenu()" style="margin-top: 20px;">Demander un Devis</a>
     </div>
 
     <section class="hero">
@@ -345,44 +344,99 @@
 
     <section id="entreprise" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">ÉVÉNEMENT ENTREPRISE</h2>
-        <div class="detail-content"><p class="lead-text">Sublimez votre image de marque.</p><div class="detail-text"><p>Conventions et séminaires avec une précision absolue.</p></div>
-            <div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800');"></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Sublimez votre image de marque.</p>
+            <div class="detail-text"><p>Conventions et séminaires avec une précision absolue.</p></div>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800');"></div>
+            </div>
         </div>
     </section>
 
     <section id="mapping" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">MAPPING VIDÉO</h2>
-        <div class="detail-content"><p class="lead-text">Transformez l'architecture.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1535016120720-40c6874c3b13?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800');"></div></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Transformez l'architecture.</p>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1535016120720-40c6874c3b13?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800');"></div>
+            </div>
+        </div>
     </section>
 
     <section id="defile" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">DÉFILÉ DE MODE</h2>
-        <div class="detail-content"><p class="lead-text">Précision lumineuse pour le Fashion.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1537832816519-689ad163238b?auto=format&fit=crop&w=800');"></div></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Précision lumineuse pour le Fashion.</p>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1537832816519-689ad163238b?auto=format&fit=crop&w=800');"></div>
+            </div>
+        </div>
     </section>
 
     <section id="emotion" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">E-MOTION</h2>
-        <div class="detail-content"><p class="lead-text">Streaming et plateaux TV.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1586864387789-628af9dac626?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533750349088-cd8773a6575c?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1516321165247-4aa89a48df28?auto=format&fit=crop&w=800');"></div></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Streaming et plateaux TV.</p>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1586864387789-628af9dac626?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533750349088-cd8773a6575c?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1516321165247-4aa89a48df28?auto=format&fit=crop&w=800');"></div>
+            </div>
+        </div>
     </section>
 
     <section id="sport" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">ÉVÉNEMENT SPORTIF</h2>
-        <div class="detail-content"><p class="lead-text">Grands écrans et sonorisation stade.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1522770179533-24471fcdba45?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=800');"></div></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Grands écrans et sonorisation stade.</p>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1522770179533-24471fcdba45?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=800');"></div>
+            </div>
+        </div>
     </section>
 
     <section id="commemoration" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">COMMÉMORATION</h2>
-        <div class="detail-content"><p class="lead-text">Mise en valeur du patrimoine.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1548502499-1715af6bbc4f?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800');"></div></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Mise en valeur du patrimoine.</p>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1548502499-1715af6bbc4f?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800');"></div>
+            </div>
+        </div>
     </section>
 
     <section id="concert" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">CONCERT</h2>
-        <div class="detail-content"><p class="lead-text">Live Experience et Lights Shows.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7ea9959f0716?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1459749411177-2a2960949dc7?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800');"></div></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Live Experience et Lights Shows.</p>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1470229722913-7ea9959f0716?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1459749411177-2a2960949dc7?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800');"></div>
+            </div>
+        </div>
     </section>
 
     <section id="festival" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title">FESTIVAL</h2>
-        <div class="detail-content"><p class="lead-text">Technique XXL pour l'Open Air.</p><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533174072545-e8d4aa97d848?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800');"></div><div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1514525253440-b393452e8d03?auto=format&fit=crop&w=800');"></div></div></div>
+        <div class="detail-content">
+            <p class="lead-text">Technique XXL pour l'Open Air.</p>
+            <div class="tech-gallery">
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1533174072545-e8d4aa97d848?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800');"></div>
+                <div class="tech-item" style="background-image: url('https://images.unsplash.com/photo-1514525253440-b393452e8d03?auto=format&fit=crop&w=800');"></div>
+            </div>
+        </div>
     </section>
 
     <section id="contact" class="contact-section reveal">
@@ -438,7 +492,6 @@
     </footer>
 
 <script>
-    /* MENU MOBILE TOGGLE */
     function toggleMenu() {
         const menu = document.getElementById('mobileMenu');
         menu.classList.toggle('active');
