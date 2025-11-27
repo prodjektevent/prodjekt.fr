@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OFFRE CLÉ EN MAIN | PRODJEKT</title>
+    <title>CLÉ EN MAIN | PRODJEKT</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* --- STYLE GLOBAL --- */
         :root { --primary: #2D5BFF; --accent: #e0005b; --text-main: #ffffff; --text-muted: #cccccc; --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.15); --footer-bg: rgba(10, 10, 10, 0.95); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #050505; color: white; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; font-family: 'Space Grotesk', sans-serif; }
+        body { background-color: #050505; color: var(--text-main); overflow-x: hidden; cursor: none; }
+        a, button, input, textarea, select { cursor: none; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
+        ul { list-style: none; padding: 0; margin: 0; }
+
+        /* CURSEUR */
+        .cursor-dot { width: 8px; height: 8px; background-color: white; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; box-shadow: 0 0 10px white; }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--accent); position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9998; pointer-events: none; transition: width 0.2s, height 0.2s, background-color 0.2s; box-shadow: 0 0 20px rgba(224, 0, 91, 0.3); }
+        body.hovering .cursor-outline { width: 70px; height: 70px; background-color: rgba(224, 0, 91, 0.1); border-color: white; mix-blend-mode: screen; }
+
+        /* FOND */
         .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
         .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
         .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; }
 
+        /* HEADER */
         header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; padding: 10px 30px; background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo-img { max-height: 45px; width: auto; display: block; }
         .desktop-nav ul { display: flex; gap: 30px; }
@@ -28,29 +39,56 @@
         .mobile-menu-overlay.active { transform: translateX(0); }
         .mobile-menu-overlay ul { display: flex; flex-direction: column; gap: 30px; text-align: center; }
         .mobile-menu-overlay a { font-family: 'Syne'; font-size: 2rem; color: white; text-transform: uppercase; }
-        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white; white-space: nowrap; }
-        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px); }
+        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white; white-space: nowrap; animation: pulseBtn 3s infinite; }
+        @keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px); animation: none; }
 
+        /* PAGE SPECIFICS */
+        .page-header { padding: 180px 10% 80px; text-align: center; }
+        .page-title { font-family: 'Syne'; font-size: 3.5rem; text-transform: uppercase; margin-bottom: 20px; line-height: 1.1; }
+        .page-subtitle { color: #ccc; max-width: 800px; margin: 0 auto; font-size: 1.2rem; line-height: 1.6; }
+        
+        .text-glow-anim { background: linear-gradient(to right, #ffffff 20%, #e0005b 50%, #2D5BFF 80%, #ffffff 100%); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .page-header { padding: 180px 10% 80px; text-align: center; }
-        .page-title { font-family: 'Syne'; font-size: 4rem; text-transform: uppercase; margin-bottom: 20px; line-height: 1; }
-        .page-subtitle { color: #ccc; max-width: 700px; margin: 0 auto; font-size: 1.2rem; line-height: 1.6; }
-        .process-section { padding: 0 10% 100px; }
-        .process-grid { display: grid; grid-template-columns: 1fr; gap: 60px; }
-        .process-card { background: rgba(20, 20, 20, 0.6); border: 1px solid var(--glass-border); border-radius: 30px; padding: 50px; backdrop-filter: blur(15px); display: flex; align-items: center; gap: 50px; transition: 0.4s; position: relative; overflow: hidden; }
-        .process-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .process-card::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--accent); }
-        .step-number { font-family: 'Syne'; font-size: 5rem; color: rgba(255,255,255,0.1); position: absolute; top: 20px; right: 30px; font-weight: 800; }
-        .process-icon { font-size: 3rem; color: var(--accent); margin-bottom: 20px; display: inline-block; background: rgba(224,0,91,0.1); padding: 20px; border-radius: 20px; }
-        .process-content h2 { font-family: 'Syne'; font-size: 2rem; margin-bottom: 15px; }
-        .process-content p { color: #ccc; line-height: 1.7; margin-bottom: 20px; }
-        .process-list li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; color: white; font-weight: 500; }
-        .process-list li i { color: var(--primary); }
-        .final-cta { text-align: center; padding: 50px 0; }
-        .final-cta h3 { font-family: 'Syne'; font-size: 2.5rem; margin-bottom: 30px; }
+        /* CONTENU TEXTE VITRÉ */
+        .content-section { padding: 50px 10%; display: flex; justify-content: center; }
+        .content-box { background: rgba(20, 20, 20, 0.6); border: 1px solid var(--glass-border); border-radius: 30px; padding: 50px; backdrop-filter: blur(15px); max-width: 1000px; position: relative; }
+        .content-box::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--accent); }
+        .content-box h2 { font-family: 'Syne'; font-size: 2rem; margin-bottom: 20px; color: white; }
+        .content-box p { color: #ccc; line-height: 1.8; margin-bottom: 20px; font-size: 1rem; }
+        .highlight-text { color: white; font-weight: 700; }
 
+        /* GRILLE CONFIANCE */
+        .trust-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 50px 10%; max-width: 1400px; margin: 0 auto; }
+        .trust-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 20px; padding: 40px; text-align: center; transition: 0.4s; cursor: pointer; }
+        .trust-card:hover { transform: translateY(-5px); border-color: var(--accent); background: rgba(255, 255, 255, 0.08); }
+        .trust-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 20px; }
+        .trust-card h3 { font-family: 'Syne'; font-size: 1.5rem; margin-bottom: 15px; }
+        .trust-card p { color: #aaa; line-height: 1.6; font-size: 0.9rem; }
+
+        /* FORMULAIRE */
+        .contact-section { padding: 100px 5%; display: flex; justify-content: center; align-items: center; position: relative; border-top: 1px solid var(--glass-border); margin-top: 50px;}
+        .glass-form-container { width: 100%; max-width: 1000px; background: rgba(10, 10, 10, 0.7); border: 1px solid var(--glass-border); border-radius: 30px; padding: 60px; position: relative; overflow: hidden; box-shadow: 0 20px 80px rgba(0,0,0,0.8); backdrop-filter: blur(30px); }
+        .glass-form-container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+        .form-header { text-align: center; margin-bottom: 50px; }
+        .form-header h2 { font-family: 'Syne'; font-size: 2.5rem; margin-bottom: 10px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .full-width { grid-column: span 2; }
+        .input-group { position: relative; margin-bottom: 10px; }
+        .input-field { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid #444; padding: 18px 20px; border-radius: 12px; color: white; font-size: 1rem; transition: 0.3s; }
+        .input-field:focus { border-color: var(--accent); background: rgba(224,0,91,0.05); box-shadow: 0 0 15px rgba(224,0,91,0.2); }
+        .input-label { position: absolute; left: 20px; top: 18px; color: #888; pointer-events: none; transition: 0.3s; font-size: 0.9rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        .input-field:focus ~ .input-label, .input-field:not(:placeholder-shown) ~ .input-label { top: -12px; left: 10px; font-size: 0.75rem; color: var(--accent); background: #000; padding: 0 5px; border-radius: 3px; }
+        textarea.input-field { resize: vertical; min-height: 150px; }
+        select.input-field { appearance: none; color: #ccc; cursor: pointer; }
+        select.input-field option { background: #111; color: white; padding: 10px; }
+        .submit-btn { width: 100%; padding: 20px; margin-top: 20px; background: linear-gradient(45deg, var(--primary), var(--accent)); border: none; border-radius: 12px; color: white; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(224, 0, 91, 0.4); }
+
+        /* FOOTER */
         footer { border-top: 1px solid var(--glass-border); padding: 80px 10% 40px; background: var(--footer-bg); color: var(--text-muted); font-size: 0.95rem; text-align: center; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
         .footer-col h4 { color: white; font-family: 'Syne'; margin-bottom: 25px; font-size: 1.2rem; }
@@ -71,50 +109,162 @@
             .burger-menu-btn { display: block; }
             .cta-btn { font-size: 0.7rem; padding: 8px 12px; margin: 0 10px; }
             .page-title { font-size: 2.5rem; }
-            .process-card { flex-direction: column; text-align: center; padding: 30px; gap: 20px; }
-            .process-content { text-align: left; }
+            .content-box { padding: 30px; }
+            .trust-grid-3 { grid-template-columns: 1fr; padding: 30px 5%; }
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .glass-form-container { padding: 20px; }
             .footer-grid { grid-template-columns: 1fr; }
+            .cursor-dot, .cursor-outline { display: none; }
+            body { cursor: auto; }
         }
     </style>
 </head>
 <body>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
     <div class="global-video-container"><video autoplay muted loop playsinline><source src="https://www.prodjekt.fr/wp-content/uploads/2025/11/1121.mp4" type="video/mp4"></video></div>
     <div class="global-video-overlay"></div>
 
     <header>
         <a href="index.html" class="logo-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="Logo Prodjekt" class="logo-img"></a>
         <nav class="desktop-nav"><ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="cle-en-main.html" class="active">Clé en main</a></li><li><a href="actualites.html">L'actu</a></li><li><a href="catalogue.html">Catalogue scénique</a></li></ul></nav>
-        <a href="index.html#contact" class="cta-btn">Demander un Devis</a>
+        <a href="#contact" class="cta-btn">Demander un Devis</a>
         <div class="burger-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </header>
 
     <div class="mobile-menu-overlay" id="mobileMenu">
         <div style="position: absolute; top: 20px; right: 20px; font-size: 2rem; color: white; cursor: pointer;" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
-        <ul><li><a href="realisations.html" onclick="toggleMenu()">Nos réalisations</a></li><li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li><li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li></ul>
+        <ul><li><a href="realisations.html" onclick="toggleMenu()">Nos réalisations</a></li><li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li><li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li><li><a href="catalogue.html" onclick="toggleMenu()">Catalogue scénique</a></li></ul>
     </div>
 
-    <section class="page-header"><h1 class="page-title">Gestion de Projet <br><span style="color:var(--accent)">Clé en Main</span></h1><p class="page-subtitle">Ne vous souciez plus de la technique. Nous prenons en charge l'intégralité de la production.</p></section>
-    <section class="process-section">
-        <div class="process-grid">
-            <div class="process-card reveal"><div class="step-number">01</div><div><i class="fas fa-pencil-ruler process-icon"></i><div class="process-content"><h2>Bureau d'Études</h2><p>Nous traduisons vos idées en solutions techniques concrètes. Plans, simulations 3D et faisabilité.</p><ul class="process-list"><li><i class="fas fa-check"></i> Repérage technique</li><li><i class="fas fa-check"></i> Plans 3D (WYSIWYG)</li></ul></div></div></div>
-            <div class="process-card reveal"><div class="step-number">02</div><div><i class="fas fa-tasks process-icon" style="color:var(--primary); background:rgba(45,91,255,0.1)"></i><div class="process-content"><h2>Coordination</h2><p>Un interlocuteur unique pilote l'ensemble des corps de métiers. Nous gérons les plannings et la logistique.</p><ul class="process-list"><li><i class="fas fa-check"></i> Gestion des équipes</li><li><i class="fas fa-check"></i> Planning millimétré</li></ul></div></div></div>
-            <div class="process-card reveal"><div class="step-number">03</div><div><i class="fas fa-rocket process-icon" style="color:#fff; background:rgba(255,255,255,0.1)"></i><div class="process-content"><h2>Exploitation</h2><p>Le jour J, nous sommes aux commandes. Nos régisseurs généraux s'assurent que tout se déroule comme prévu.</p><ul class="process-list"><li><i class="fas fa-check"></i> Direction technique</li><li><i class="fas fa-check"></i> Astreinte permanente</li></ul></div></div></div>
+    <section class="page-header reveal">
+        <h1 class="page-title text-glow-anim">Gestion de Projet <br><span style="color:var(--accent)">Clé en Main</span></h1>
+        <p class="page-subtitle">Ne vous souciez plus de la technique. Nous prenons en charge l'intégralité de la production.</p>
+    </section>
+
+    <section class="content-section reveal">
+        <div class="content-box">
+            <h2>Une solution sans contraintes</h2>
+            <p class="highlight-text">Vous cherchez une solution clé en main sans contraintes ?</p>
+            <p>Choix de scène, animateur, artistes, DJ, groupe de musique, sonorisation, lumières, effets spéciaux, loges, mobilier, traiteur, etc. <strong>PRODJEKT s'occupe de tout !</strong></p>
+            <p style="margin-top:20px; font-size:0.9rem; color:#888;"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Basé dans les Hauts-de-France sur l’axe Lille-Paris et proche d’Arras.</p>
         </div>
-        <div class="final-cta reveal"><h3>Prêt à nous confier les clés ?</h3><a href="index.html#contact" class="cta-btn" style="padding: 15px 40px; font-size: 1rem;">Démarrer le projet</a></div>
+    </section>
+
+    <section class="content-section reveal">
+        <div class="content-box" style="border-color: var(--primary);">
+            <h2 style="color:var(--primary)">Des scènes pour tous vos événements</h2>
+            <p>Nos scènes sont conçues pour offrir une expérience sonore et visuelle unique. Que vous organisiez un festival, un concert, ou une fête privée, nous adaptons nos équipements à la taille de votre événement.</p>
+            <ul style="margin-top:20px; list-style:none; padding:0;">
+                <li style="margin-bottom:10px; display:flex; align-items:center; gap:10px;"><i class="fas fa-star" style="color:var(--primary)"></i> <strong>Plus de 20 ans de savoir-faire</strong> dans la fabrication et l’installation.</li>
+                <li style="margin-bottom:10px; display:flex; align-items:center; gap:10px;"><i class="fas fa-shield-alt" style="color:var(--primary)"></i> Scènes conformes aux normes en vigueur (arrêté du 25 juillet 2022).</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <h2 class="text-center text-glow-anim" style="margin-bottom: 20px; font-family:'Syne'; font-size:2.5rem; text-align:center;">FAITES-NOUS CONFIANCE</h2>
+        <div class="trust-grid-3">
+            <div class="trust-card"><i class="fas fa-award trust-icon"></i><h3>Expertise Éprouvée</h3><p>Forts de notre expérience avec des événements emblématiques comme le <strong>Main Square Festival</strong>.</p></div>
+            <div class="trust-card"><i class="fas fa-magic trust-icon"></i><h3>Solution Tout-en-un</h3><p>De la planification à la désinstallation, nous gérons tout.</p></div>
+            <div class="trust-card"><i class="fas fa-compass trust-icon"></i><h3>Proximité & Réactivité</h3><p>Basés près d’Arras, nous sommes à vos côtés dans les Hauts-de-France.</p></div>
+        </div>
+    </section>
+
+    <div class="reveal" style="text-align:center; padding: 60px 10%;">
+        <h3 style="font-family:'Syne'; font-size:2rem; margin-bottom:20px; color:white;">Prêt à donner vie à votre projet ?</h3>
+        <p style="color:#ccc; max-width:600px; margin:0 auto 30px auto;">Contactez-nous dès maintenant pour un devis personnalisé.</p>
+        <a href="#contact" class="cta-btn" style="padding: 15px 40px; font-size: 1rem;">Démarrer le projet</a>
+    </div>
+
+    <section id="contact" class="contact-section reveal">
+        <div class="glass-form-container">
+            <div class="form-header">
+                <h2 class="text-glow-anim">CONTACTEZ-NOUS</h2>
+                <p>Remplissez ce formulaire pour une étude sur mesure.</p>
+            </div>
+            <form action="https://formsubmit.co/communication@prodjekt.fr" method="POST">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="_captcha" value="false">
+
+                <div class="form-grid">
+                    <div class="input-group"><input type="text" name="Nom" id="nom" class="input-field" placeholder=" " required><label for="nom" class="input-label">Nom</label></div>
+                    <div class="input-group"><input type="text" name="Prenom" id="prenom" class="input-field" placeholder=" " required><label for="prenom" class="input-label">Prénom</label></div>
+                    <div class="input-group"><input type="text" name="Societe" id="societe" class="input-field" placeholder=" "><label for="societe" class="input-label">Société</label></div>
+                    <div class="input-group"><input type="email" name="Email" id="email" class="input-field" placeholder=" " required><label for="email" class="input-label">Email Professionnel</label></div>
+                    <div class="input-group full-width">
+                        <select name="Type_Evenement" id="type-event" class="input-field" required>
+                            <option value="" disabled selected>Type d'événement</option><option value="Clé en main">Projet Clé en main</option><option value="Festival">Festival</option><option value="Concert">Concert</option><option value="Inauguration">Inauguration</option><option value="Sport">Evénement sportif</option><option value="Conférence">Conférence</option><option value="Anniversaire">Anniversaire</option><option value="Séminaire">Séminaire</option><option value="Voeux">Vœux</option><option value="Defile">Défilé de mode</option><option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="input-group"><input type="tel" name="Telephone" id="tel" class="input-field" placeholder=" "><label for="tel" class="input-label">Téléphone</label></div>
+                    <div class="input-group"><input type="text" name="Date" id="date" class="input-field" placeholder=" " onfocus="(this.type='date')" onblur="(this.type='text')"><label for="date" class="input-label">Date de l'événement</label></div>
+                    <div class="input-group full-width"><textarea name="Message" id="message" class="input-field" placeholder=" " required></textarea><label for="message" class="input-label">Détails du projet</label></div>
+                </div>
+                <button type="submit" class="submit-btn">ENVOYER LA DEMANDE <i class="fas fa-paper-plane" style="margin-left:10px;"></i></button>
+            </form>
+        </div>
     </section>
 
     <footer>
         <div class="footer-grid">
-            <div class="footer-col"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="PRODJEKT" class="footer-logo"><p>Partenaire technique de référence pour l'événementiel en France. Sonorisation, éclairage, vidéo et structure.</p></div>
-            <div class="footer-col"><h4>CONTACT</h4><ul class="contact-list"><li><i class="fas fa-phone-alt"></i> <a href="tel:0391190063">03 91 19 00 63</a></li><li><i class="fas fa-envelope"></i> <a href="mailto:welcome@prodjekt.fr">welcome@prodjekt.fr</a></li><li><i class="fas fa-map-marker-alt"></i> Hauts-de-France / Paris</li></ul></div>
-            <div class="footer-col"><h4>SUIVEZ-NOUS</h4><div class="social-links"><a href="https://www.facebook.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a><a href="https://fr.linkedin.com/company/prodjekt" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a></div></div>
+            <div class="footer-col">
+                <img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="PRODJEKT" class="footer-logo">
+                <p>Partenaire technique de référence pour l'événementiel en France. Sonorisation, éclairage, vidéo et structure.</p>
+            </div>
+            <div class="footer-col">
+                <h4>CONTACT</h4>
+                <ul class="contact-list">
+                    <li><i class="fas fa-phone-alt"></i> <a href="tel:0391190063">03 91 19 00 63</a></li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:welcome@prodjekt.fr">welcome@prodjekt.fr</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>SUIVEZ-NOUS</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="https://fr.linkedin.com/company/prodjekt" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
         </div>
         <div class="copyright">&copy; 2025 PRODJEKT. Tous droits réservés.</div>
     </footer>
 
-    <script>
-        function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');}
-        function reveal(){var e=document.querySelectorAll(".reveal");for(var t=0;t<e.length;t++){var r=window.innerHeight;e[t].getBoundingClientRect().top<r-150&&e[t].classList.add("active")}}window.addEventListener("scroll",reveal),reveal();
-    </script>
+<script>
+    function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');}
+
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 150;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    reveal();
+
+    // Curseur
+    const cursorDot = document.querySelector('[data-cursor-dot]');
+    const cursorOutline = document.querySelector('[data-cursor-outline]');
+    window.addEventListener("mousemove", function (e) {
+        const posX = e.clientX; const posY = e.clientY;
+        cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+        cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+    });
+    const interactiveElements = document.querySelectorAll('a, button, .trust-card, select, input, textarea');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
+        el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
+    });
+</script>
+
 </body>
 </html>

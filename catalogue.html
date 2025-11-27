@@ -12,19 +12,20 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* --- VARIABLES & STYLE GLOBAL --- */
+        /* --- STYLE GLOBAL --- */
         :root { --primary: #2D5BFF; --accent: #e0005b; --text-main: #ffffff; --text-muted: #cccccc; --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.15); --footer-bg: rgba(10, 10, 10, 0.95); }
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; font-family: 'Space Grotesk', sans-serif; }
-        body { background-color: #050505; color: var(--text-main); overflow-x: hidden; }
+        body { background-color: #050505; color: var(--text-main); overflow-x: hidden; cursor: none; }
+        a, button, input, textarea, select { cursor: none; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
+        ul { list-style: none; padding: 0; margin: 0; }
 
-        /* FOND */
+        /* FOND VIDEO (RÉTABLI) */
         .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
         .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
         .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; }
 
-        /* HEADER */
+        /* HEADER & MENU (CORRIGÉ) */
         header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; padding: 10px 30px; background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo-img { max-height: 45px; width: auto; display: block; }
         .desktop-nav ul { display: flex; gap: 30px; }
@@ -33,22 +34,24 @@
         .desktop-nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--accent); transition: 0.3s; }
         .desktop-nav a:hover::after { width: 100%; }
         .burger-menu-btn { display: none; font-size: 1.5rem; color: white; cursor: pointer; margin-left: 15px; }
+        
+        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white; white-space: nowrap; animation: pulseBtn 3s infinite; }
+        @keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px); animation: none; }
+
         .mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px); z-index: 1001; display: flex; flex-direction: column; justify-content: center; align-items: center; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .mobile-menu-overlay.active { transform: translateX(0); }
         .mobile-menu-overlay ul { display: flex; flex-direction: column; gap: 30px; text-align: center; }
         .mobile-menu-overlay a { font-family: 'Syne'; font-size: 2rem; color: white; text-transform: uppercase; }
-        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white; white-space: nowrap; }
-        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px); }
 
-        /* ANIMATIONS */
-        .text-glow-anim { background: linear-gradient(to right, #ffffff 20%, #e0005b 50%, #2D5BFF 80%, #ffffff 100%); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
-        @keyframes shine { to { background-position: 200% center; } }
-
-        /* CATALOGUE CSS */
+        /* PAGE STYLE */
         .page-header { padding: 150px 5% 50px; text-align: center; }
         .page-title { font-family: 'Syne'; font-size: 3.5rem; text-transform: uppercase; margin-bottom: 20px; }
+        .text-glow-anim { background: linear-gradient(to right, #ffffff 20%, #e0005b 50%, #2D5BFF 80%, #ffffff 100%); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
         .page-subtitle { color: #ccc; max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6; }
 
+        /* CATALOGUE */
         #filters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
         .filter-btn { background: rgba(255,255,255,0.1); color: #ccc; border: 1px solid var(--glass-border); padding: 10px 20px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-family: 'Space Grotesk'; text-transform: uppercase; font-weight: 600; font-size: 0.8rem; }
         .filter-btn:hover, .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
@@ -59,11 +62,8 @@
         .product-img-wrapper { position: relative; overflow: hidden; height: 220px; }
         .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .product-card:hover .product-img { transform: scale(1.1); }
-        
-        /* ICONE OEIL (Visualiser) */
         .zoom-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(0,0,0,0.7); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; items-center; justify-content: center; transition: 0.3s; opacity: 0; }
-        .product-img-wrapper:hover .zoom-icon { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-
+        .product-card:hover .zoom-icon { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         .product-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         .product-title { font-family: 'Syne'; font-size: 1.3rem; margin-bottom: 10px; color: white; }
         .product-desc { font-size: 0.9rem; color: #999; margin-bottom: 20px; line-height: 1.5; flex-grow: 1; }
@@ -71,28 +71,21 @@
         .product-tag { background: rgba(224,0,91,0.2); color: var(--accent); padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: 700; }
         .view-details { color: var(--accent); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
 
-        /* MODALE DÉTAILS */
+        /* MODALE */
         #details-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.4s; }
         #details-modal.active { opacity: 1; pointer-events: all; }
         .modal-content { background: #0a0a0a; border: 1px solid var(--glass-border); border-radius: 20px; width: 90%; max-width: 1100px; max-height: 90vh; overflow-y: auto; position: relative; padding: 40px; }
         .modal-close { position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; cursor: pointer; z-index: 2001; }
-        
-        /* GALERIE ACCORDÉON MODALE */
-        .modal-gallery-wrapper { margin-bottom: 30px; }
-        .tech-gallery { display: flex; width: 100%; height: 300px; gap: 10px; }
+        .tech-gallery { display: flex; width: 100%; height: 300px; gap: 10px; margin-bottom: 30px; }
         .tech-item { flex: 1; border-radius: 15px; background-position: center; background-size: cover; background-repeat: no-repeat; transition: all 0.5s ease; filter: grayscale(100%) brightness(0.6); cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.1); }
         .tech-item:hover { flex: 4; filter: grayscale(0%) brightness(1.1); border-color: var(--accent); }
-
-        .modal-info h3 { font-family: 'Syne'; font-size: 2.5rem; margin-bottom: 10px; color: white; text-transform: uppercase; }
         .specs-list { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .specs-list li { color: #ccc; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
         .specs-list li strong { color: white; }
 
-        /* COMPARATEUR */
+        /* CHART & LIGHTBOX */
         .chart-section { padding: 50px 10%; background: rgba(0,0,0,0.3); margin-bottom: 50px; }
         .chart-container { height: 400px; width: 100%; margin-top: 30px; background: rgba(255,255,255,0.02); border-radius: 20px; padding: 20px; }
-
-        /* LIGHTBOX */
         #img-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: flex; justify-content: center; align-items: center; display: none; }
         #img-lightbox.active { display: flex; }
         #lightbox-img { max-width: 90vw; max-height: 90vh; border: 2px solid var(--accent); border-radius: 10px; }
@@ -124,11 +117,15 @@
         .contact-list li { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
         .contact-list li i { color: var(--accent); font-size: 1.1rem; }
         .contact-list li a { color: var(--text-muted); transition: 0.3s; }
-        .contact-list li a:hover { color: white; padding-left: 5px; }
         .social-links { display: flex; gap: 15px; justify-content: center; }
         .social-btn { width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
         .social-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
         .copyright { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; font-size: 0.8rem; opacity: 0.6; }
+
+        /* CURSEUR CUSTOM */
+        .cursor-dot { width: 8px; height: 8px; background-color: white; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; box-shadow: 0 0 10px white; }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--accent); position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9998; pointer-events: none; transition: width 0.2s, height 0.2s, background-color 0.2s; box-shadow: 0 0 20px rgba(224, 0, 91, 0.3); }
+        body.hovering .cursor-outline { width: 70px; height: 70px; background-color: rgba(224, 0, 91, 0.1); border-color: white; mix-blend-mode: screen; }
 
         @media (max-width: 768px) {
             header { width: 100%; padding: 10px 15px; border-radius: 0; top: 0; background: rgba(10, 10, 10, 0.9); justify-content: space-between; }
@@ -145,10 +142,15 @@
             .form-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
             .glass-form-container { padding: 20px; }
+            .cursor-dot, .cursor-outline { display: none; }
+            body { cursor: auto; }
         }
     </style>
 </head>
 <body>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
 
     <div class="global-video-container"><video autoplay muted loop playsinline><source src="https://www.prodjekt.fr/wp-content/uploads/2025/11/1121.mp4" type="video/mp4"></video></div>
     <div class="global-video-overlay"></div>
@@ -156,7 +158,7 @@
     <header>
         <a href="index.html" class="logo-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="Logo Prodjekt" class="logo-img"></a>
         <nav class="desktop-nav"><ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="cle-en-main.html">Clé en main</a></li><li><a href="actualites.html">L'actu</a></li><li><a href="catalogue.html" class="active">Catalogue scénique</a></li></ul></nav>
-        <a href="#contact" class="cta-btn">Demander un Devis</a>
+        <a href="#contact" class="cta-btn">Échangeons sur votre projet</a>
         <div class="burger-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </header>
 
@@ -187,9 +189,7 @@
         <div class="modal-content">
             <div class="modal-close" onclick="closeModal()">&times;</div>
             <div class="modal-info"><h3 id="modal-title"></h3><p id="modal-desc" style="color:#ccc; margin-bottom:20px;"></p></div>
-            
             <div id="modal-gallery-container" class="modal-gallery-wrapper"></div>
-            
             <ul id="modal-specs" class="specs-list"></ul>
             <div style="text-align:center; margin-top:30px;"><a href="#contact" class="cta-btn" onclick="prefillContact()">Demander un devis pour ce produit</a></div>
         </div>
@@ -199,26 +199,19 @@
 
     <section id="contact" class="contact-section">
         <div class="glass-form-container">
-            <div class="form-header">
-                <h2 class="text-glow-anim">UNE QUESTION ? UN DEVIS ?</h2>
-                <p>Remplissez ce formulaire, notre bureau d'études vous répondra.</p>
-            </div>
+            <div class="form-header"><h2 class="text-glow-anim">Échangeons sur votre projet</h2><p>Dites-nous tout, nous reviendrons vers vous rapidement.</p></div>
             <form action="https://formsubmit.co/communication@prodjekt.fr" method="POST">
-                <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="false">
-
+                <input type="text" name="_honey" style="display:none"><input type="hidden" name="_captcha" value="false">
                 <div class="form-grid">
                     <div class="input-group"><input type="text" name="Nom" id="nom" class="input-field" placeholder=" " required><label for="nom" class="input-label">Nom</label></div>
                     <div class="input-group"><input type="text" name="Prenom" id="prenom" class="input-field" placeholder=" " required><label for="prenom" class="input-label">Prénom</label></div>
                     <div class="input-group"><input type="text" name="Societe" id="societe" class="input-field" placeholder=" "><label for="societe" class="input-label">Société</label></div>
                     <div class="input-group"><input type="email" name="Email" id="email" class="input-field" placeholder=" " required><label for="email" class="input-label">Email Professionnel</label></div>
-                    
                     <div class="input-group full-width">
                         <select name="Type_Evenement" id="type-event" class="input-field" required>
                             <option value="" disabled selected>Type d'événement</option><option value="Festival">Festival</option><option value="Concert">Concert</option><option value="Inauguration">Inauguration</option><option value="Sport">Evénement sportif</option><option value="Conférence">Conférence</option><option value="Anniversaire">Anniversaire</option><option value="Séminaire">Séminaire</option><option value="Voeux">Vœux</option><option value="Defile">Défilé de mode</option><option value="Autre">Autre</option>
                         </select>
                     </div>
-
                     <div class="input-group"><input type="tel" name="Telephone" id="tel" class="input-field" placeholder=" "><label for="tel" class="input-label">Téléphone</label></div>
                     <div class="input-group"><input type="text" name="Date" id="date" class="input-field" placeholder=" " onfocus="(this.type='date')" onblur="(this.type='text')"><label for="date" class="input-label">Date de l'événement</label></div>
                     <div class="input-group full-width"><textarea name="Message" id="message" class="input-field" placeholder=" " required></textarea><label for="message" class="input-label">Détails techniques</label></div>
@@ -240,23 +233,39 @@
 <script>
     function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');}
 
-    // DONNÉES DU CATALOGUE AVEC VOS IMAGES
+    // DATA PRODUITS (AVEC IMAGES DUPLIQUÉES POUR ACCORDEON)
     const products = [
         { category: "Grande Scène", name: "Grande Scène (B100R Prolyte)", description: "Idéale pour les grands festivals.", surface: 240, resistance: 750, charge: 13, hauteur: 9.5, 
             images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img144.jpg", "https://www.prodjekt.fr/wp-content/uploads/2020/03/Touquet-Music-Beach-Festival-2019.jpg", "https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_5665.jpg"] 
         },
-        { category: "Grande Scène", name: "Alpha Stage 80 (Mobile)", description: "Solution mobile rapide.", surface: 82, resistance: 500, charge: 10, hauteur: 6, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/IMG_7008.jpeg"] },
+        { category: "Grande Scène", name: "Alpha Stage 80 (Mobile)", description: "Solution mobile rapide.", surface: 82, resistance: 500, charge: 10, hauteur: 6, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/IMG_7008.jpeg" , "https://www.prodjekt.fr/wp-content/uploads/2025/09/IMG_7150.jpg" , "https://www.prodjekt.fr/wp-content/uploads/2025/06/IMG_5404-1.jpg"] 
+        },
         { category: "Arc-Roof", name: "Arc-Roof 14 x 11 HT", description: "Show spectaculaire.", surface: 154, resistance: 750, charge: 5, hauteur: 7.1, 
             images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img174.jpg", "https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_6684.jpg", "https://www.prodjekt.fr/wp-content/uploads/2025/06/DSC_4079.jpg"] 
         },
-        { category: "Arc-Roof", name: "Arc-Roof 10 x 8 HT", description: "Hauteur optimisée.", surface: 80, resistance: 750, charge: 5, hauteur: 4.1, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img198.jpg"] },
-        { category: "Arc-Roof", name: "Arc-Roof 10 x 8", description: "Élégance standard.", surface: 80, resistance: 750, charge: 1.2, hauteur: 4.65, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img204.jpg"] },
-        { category: "Arc-Roof", name: "Arc-Roof 8 x 6", description: "Compacte et polyvalente.", surface: 48, resistance: 750, charge: 1.6, hauteur: 3.65, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img241.jpg"] },
-        { category: "Arc-Roof", name: "Arc-Roof 6 x 4", description: "Petit format.", surface: 24, resistance: 750, charge: 1.4, hauteur: 2.74, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img263.jpg"] },
-        { category: "Arc-Roof", name: "Arc-Roof 4 x 4", description: "Régie ou accueil.", surface: 16, resistance: 750, charge: 2, hauteur: 2.74, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img290.jpg"] },
-        { category: "Tunnels & Dômes", name: "Tunnel Roof", description: "Passerelles et entrées.", surface: 40, resistance: 0, charge: 1.5, hauteur: 4.2, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img294.jpg"] },
+        { category: "Arc-Roof", name: "Arc-Roof 10 x 8 HT", description: "Hauteur optimisée.", surface: 80, resistance: 750, charge: 5, hauteur: 4.1, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img198.jpg"] 
+        },
+        { category: "Arc-Roof", name: "Arc-Roof 10 x 8", description: "Élégance standard.", surface: 80, resistance: 750, charge: 1.2, hauteur: 4.65, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img204.jpg"] 
+        },
+        { category: "Arc-Roof", name: "Arc-Roof 8 x 6", description: "Compacte et polyvalente.", surface: 48, resistance: 750, charge: 1.6, hauteur: 3.65, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/06/IMG_9607.jpg" , "https://www.prodjekt.fr/wp-content/uploads/2025/09/img241.jpg" , "https://www.prodjekt.fr/wp-content/uploads/2024/05/IMG-20240521-WA0007.jpg"] 
+        },
+        { category: "Arc-Roof", name: "Arc-Roof 6 x 4", description: "Petit format.", surface: 24, resistance: 750, charge: 1.4, hauteur: 2.74, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img263.jpg"] 
+        },
+        { category: "Arc-Roof", name: "Arc-Roof 4 x 4", description: "Régie ou accueil.", surface: 16, resistance: 750, charge: 2, hauteur: 2.74, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img290.jpg"] 
+        },
+        { category: "Tunnels & Dômes", name: "Tunnel Roof", description: "Passerelles et entrées.", surface: 40, resistance: 0, charge: 1.5, hauteur: 4.2, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img294.jpg" , "https://www.prodjekt.fr/wp-content/uploads/2025/09/493214185_1267704675196783_3835023914266202788_n.jpg" , "https://www.prodjekt.fr/wp-content/uploads/2025/09/492948500_1267601548540429_8350337692759459506_n.jpg"] 
+        },
         { category: "Tunnels & Dômes", name: "Dômes (38, 68, 100 m²)", description: "Espaces réceptifs.", surface: 100, resistance: 0, charge: 0, hauteur: 0, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/IMG_3876.jpg", "https://www.prodjekt.fr/wp-content/uploads/2025/09/img319.jpg", "https://www.prodjekt.fr/wp-content/uploads/2025/09/IMG_5062.png"] },
-        { category: "Tunnels & Dômes", name: "Dôme Géodésique", description: "Esthétique unique.", surface: 95, resistance: 0, charge: 0, hauteur: 5, images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img328.jpg"] }
+        { category: "Tunnels & Dômes", name: "Dôme Géodésique", description: "Esthétique unique.", surface: 95, resistance: 0, charge: 0, hauteur: 5, 
+            images: ["https://www.prodjekt.fr/wp-content/uploads/2025/09/img328.jpg"] 
+        }
     ];
 
     const grid = document.getElementById('product-grid');
@@ -296,14 +305,12 @@
         
         const galleryContainer = document.getElementById('modal-gallery-container');
         let galleryHTML = '<div class="tech-gallery">';
-        
         const imgList = p.images && p.images.length > 0 ? p.images : [p.imageUrl];
         
         imgList.forEach(imgSrc => { 
             galleryHTML += `<div class="tech-item" style="background-image: url('${imgSrc}');" onclick="event.stopPropagation(); openLightbox('${imgSrc}')"></div>`; 
         });
         
-        // Si une seule image, on la triple pour l'effet accordéon
         if(imgList.length === 1) { 
              galleryHTML = '<div class="tech-gallery">';
              galleryHTML += `<div class="tech-item" style="background-image: url('${imgList[0]}');" onclick="event.stopPropagation(); openLightbox('${imgList[0]}')"></div>`;
@@ -311,7 +318,7 @@
              galleryHTML += `<div class="tech-item" style="background-image: url('${imgList[0]}');" onclick="event.stopPropagation(); openLightbox('${imgList[0]}')"></div>`;
              galleryHTML += '</div>';
         } else {
-            galleryHTML += '</div>'; // Fermeture
+            galleryHTML += '</div>';
         }
         
         galleryContainer.innerHTML = galleryHTML;
@@ -347,6 +354,21 @@
             options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc' } }, x: { grid: { display: false }, ticks: { color: '#ccc' } } }, plugins: { legend: { display: false } } }
         });
     }
+
+    // CURSEUR
+    const cursorDot = document.querySelector('[data-cursor-dot]');
+    const cursorOutline = document.querySelector('[data-cursor-outline]');
+    window.addEventListener("mousemove", function (e) {
+        const posX = e.clientX; const posY = e.clientY;
+        cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+        cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+    });
+    const interactiveElements = document.querySelectorAll('a, button, .product-card, .filter-btn, .tech-item, select, input, textarea');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
+        el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
+    });
+
     renderFilters(); filterProducts('Tous'); updateChart('surface', document.querySelector('#chart-filters button'));
 </script>
 </body>

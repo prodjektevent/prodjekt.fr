@@ -3,19 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACTUALITÉS | PRODJEKT</title>
+    <title>L'ACTU | PRODJEKT</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* --- STYLE GLOBAL V36 --- */
         :root { --primary: #2D5BFF; --accent: #e0005b; --text-main: #ffffff; --text-muted: #cccccc; --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.15); --footer-bg: rgba(10, 10, 10, 0.95); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #050505; color: white; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; font-family: 'Space Grotesk', sans-serif; }
+        body { background-color: #050505; color: var(--text-main); overflow-x: hidden; cursor: none; }
+        a, button, input, textarea, select, .news-card { cursor: none; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
+        ul { list-style: none; padding: 0; margin: 0; }
+        html { scroll-behavior: smooth; background-color: #000; scroll-padding-top: 100px; }
+
+        /* CURSEUR */
+        .cursor-dot { width: 8px; height: 8px; background-color: white; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; box-shadow: 0 0 10px white; }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--accent); position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9998; pointer-events: none; transition: width 0.2s, height 0.2s, background-color 0.2s; box-shadow: 0 0 20px rgba(224, 0, 91, 0.3); }
+        body.hovering .cursor-outline { width: 70px; height: 70px; background-color: rgba(224, 0, 91, 0.1); border-color: white; mix-blend-mode: screen; }
+
+        /* FOND */
         .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
         .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
         .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; }
 
+        /* HEADER */
         header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; padding: 10px 30px; background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 100px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo-img { max-height: 45px; width: auto; display: block; }
         .desktop-nav ul { display: flex; gap: 30px; }
@@ -28,26 +40,46 @@
         .mobile-menu-overlay.active { transform: translateX(0); }
         .mobile-menu-overlay ul { display: flex; flex-direction: column; gap: 30px; text-align: center; }
         .mobile-menu-overlay a { font-family: 'Syne'; font-size: 2rem; color: white; text-transform: uppercase; }
-        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white; white-space: nowrap; }
-        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px); }
+        .cta-btn { background: white; color: black; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; transition: 0.4s; border: 1px solid white; white-space: nowrap; animation: pulseBtn 3s infinite; }
+        @keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+        .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 0 20px rgba(224, 0, 91, 0.6); transform: translateY(-2px); animation: none; }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .news-section { padding: 150px 10% 50px; }
+        /* NEWS SPECIFIC */
+        .news-section { padding: 150px 10% 80px; }
         .page-title { font-family: 'Syne'; font-size: 4rem; text-transform: uppercase; margin-bottom: 50px; text-align: center; }
+        .text-glow-anim { background: linear-gradient(to right, #ffffff 20%, #e0005b 50%, #2D5BFF 80%, #ffffff 100%); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
+
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .news-card { background: rgba(20, 20, 20, 0.6); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; transition: 0.4s; display: flex; flex-direction: column; height: 100%; backdrop-filter: blur(10px); }
-        .news-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .news-img { width: 100%; height: 200px; object-fit: cover; }
+
+        .news-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); 
+            border-radius: 20px; overflow: hidden; transition: 0.4s; 
+            display: flex; flex-direction: column; height: 100%; backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+        
+        .news-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(224,0,91,0.2); }
+
+        .news-img-wrapper { height: 220px; overflow: hidden; position: relative; }
+        .news-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .news-card:hover .news-img { transform: scale(1.1); }
+        
         .news-content { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
-        .news-date { font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
-        .news-title { font-family: 'Syne'; font-size: 1.5rem; margin-bottom: 15px; line-height: 1.3; }
-        .news-excerpt { color: #ccc; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
-        .read-more { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        
+        .news-date { font-size: 0.8rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; letter-spacing: 1px; }
+        .news-title { font-family: 'Syne'; font-size: 1.4rem; margin-bottom: 15px; line-height: 1.3; color: white; }
+        .news-excerpt { color: #aaa; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+        
+        .read-more { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; margin-top: auto; color: white; }
         .read-more i { color: var(--accent); transition: 0.3s; }
         .news-card:hover .read-more i { transform: translateX(5px); }
 
+        /* ANIMATIONS REVEAL */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* FOOTER */
         footer { border-top: 1px solid var(--glass-border); padding: 80px 10% 40px; background: var(--footer-bg); color: var(--text-muted); font-size: 0.95rem; text-align: center; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px; }
         .footer-col h4 { color: white; font-family: 'Syne'; margin-bottom: 25px; font-size: 1.2rem; }
@@ -69,10 +101,15 @@
             .cta-btn { font-size: 0.7rem; padding: 8px 12px; margin: 0 10px; }
             .page-title { font-size: 2.5rem; }
             .footer-grid { grid-template-columns: 1fr; }
+            .cursor-dot, .cursor-outline { display: none; }
+            body { cursor: auto; }
         }
     </style>
 </head>
 <body>
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
     <div class="global-video-container"><video autoplay muted loop playsinline><source src="https://www.prodjekt.fr/wp-content/uploads/2025/11/1121.mp4" type="video/mp4"></video></div>
     <div class="global-video-overlay"></div>
 
@@ -85,22 +122,59 @@
 
     <div class="mobile-menu-overlay" id="mobileMenu">
         <div style="position: absolute; top: 20px; right: 20px; font-size: 2rem; color: white; cursor: pointer;" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
-        <ul><li><a href="realisations.html" onclick="toggleMenu()">Nos réalisations</a></li><li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li><li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li></ul>
+        <ul><li><a href="realisations.html" onclick="toggleMenu()">Nos réalisations</a></li><li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li><li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li><li><a href="catalogue.html" onclick="toggleMenu()">Catalogue scénique</a></li></ul>
     </div>
 
     <section class="news-section">
-        <h1 class="page-title reveal">L'ACTU</h1>
+        <h1 class="page-title reveal text-glow-anim">L'ACTU</h1>
+        
         <div class="news-grid">
-            <article class="news-card reveal"><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800" class="news-img" alt="News"><div class="news-content"><span class="news-date">21 NOVEMBRE 2025</span><h2 class="news-title">Nouveau Kit L-Acoustics K3</h2><p class="news-excerpt">Acquisition du système K3, idéal pour les jauges moyennes.</p><a href="#" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a></div></article>
-            <article class="news-card reveal"><img src="https://images.unsplash.com/photo-1514525253440-b393452e8d03?w=800" class="news-img" alt="News"><div class="news-content"><span class="news-date">15 OCTOBRE 2025</span><h2 class="news-title">Retour sur le Festival Electro</h2><p class="news-excerpt">Découvrez les coulisses techniques de l'été.</p><a href="#" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a></div></article>
-            <article class="news-card reveal"><img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" class="news-img" alt="News"><div class="news-content"><span class="news-date">02 SEPTEMBRE 2025</span><h2 class="news-title">Recrutement Techniciens</h2><p class="news-excerpt">Nous recherchons des talents passionnés.</p><a href="#" class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></a></div></article>
+            <article class="news-card reveal" onclick="window.location.href='#'">
+                <div class="news-img-wrapper"><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800" class="news-img" alt="News"></div>
+                <div class="news-content">
+                    <span class="news-date">21 MARS 2025</span>
+                    <h2 class="news-title">Nouveau Kit L-Acoustics K3</h2>
+                    <p class="news-excerpt">Nous renforçons notre parc matériel audio avec l'acquisition du système K3, alliant puissance et compacité pour les jauges moyennes à grandes.</p>
+                    <span class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </article>
+
+            <article class="news-card reveal" onclick="window.location.href='#'">
+                <div class="news-img-wrapper"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800" class="news-img" alt="News"></div>
+                <div class="news-content">
+                    <span class="news-date">15 JANVIER 2025</span>
+                    <h2 class="news-title">Cérémonie des Vœux d'Arras</h2>
+                    <p class="news-excerpt">Retour en images sur la mise en lumière et la sonorisation de la cérémonie des vœux. Une ambiance chaleureuse et technique maîtrisée.</p>
+                    <span class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </article>
+
+            <article class="news-card reveal" onclick="window.location.href='#'">
+                <div class="news-img-wrapper"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800" class="news-img" alt="News"></div>
+                <div class="news-content">
+                    <span class="news-date">05 JUILLET 2024</span>
+                    <h2 class="news-title">Main Square Festival 2024</h2>
+                    <p class="news-excerpt">4 jours intenses, des milliers de festivaliers et une technique XXL. Découvrez les coulisses de notre intervention sur ce festival mythique.</p>
+                    <span class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </article>
+            
+            <article class="news-card reveal" onclick="window.location.href='#'">
+                <div class="news-img-wrapper"><img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" class="news-img" alt="News"></div>
+                <div class="news-content">
+                    <span class="news-date">10 NOVEMBRE 2023</span>
+                    <h2 class="news-title">PRODJEKT s'agrandit !</h2>
+                    <p class="news-excerpt">Pour mieux vous servir, nous déménageons dans de nouveaux locaux plus spacieux, permettant d'optimiser notre logistique et notre stock.</p>
+                    <span class="read-more">Lire l'article <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </article>
         </div>
     </section>
 
     <footer>
         <div class="footer-grid">
-            <div class="footer-col"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="PRODJEKT" class="footer-logo"><p>Partenaire technique de référence pour l'événementiel en France. Sonorisation, éclairage, vidéo et structure.</p></div>
-            <div class="footer-col"><h4>CONTACT</h4><ul class="contact-list"><li><i class="fas fa-phone-alt"></i> <a href="tel:0391190063">03 91 19 00 63</a></li><li><i class="fas fa-envelope"></i> <a href="mailto:welcome@prodjekt.fr">welcome@prodjekt.fr</a></li><li><i class="fas fa-map-marker-alt"></i> Hauts-de-France / Paris</li></ul></div>
+            <div class="footer-col"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="PRODJEKT" class="footer-logo"><p>Partenaire technique de référence.</p></div>
+            <div class="footer-col"><h4>CONTACT</h4><ul class="contact-list"><li><i class="fas fa-phone-alt"></i> <a href="tel:0391190063">03 91 19 00 63</a></li><li><i class="fas fa-envelope"></i> <a href="mailto:welcome@prodjekt.fr">welcome@prodjekt.fr</a></li></ul></div>
             <div class="footer-col"><h4>SUIVEZ-NOUS</h4><div class="social-links"><a href="https://www.facebook.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a><a href="https://fr.linkedin.com/company/prodjekt" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a></div></div>
         </div>
         <div class="copyright">&copy; 2025 PRODJEKT. Tous droits réservés.</div>
@@ -109,6 +183,20 @@
     <script>
         function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');}
         function reveal(){var e=document.querySelectorAll(".reveal");for(var t=0;t<e.length;t++){var r=window.innerHeight;e[t].getBoundingClientRect().top<r-150&&e[t].classList.add("active")}}window.addEventListener("scroll",reveal),reveal();
+        
+        // Curseur
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX; const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+        const interactiveElements = document.querySelectorAll('a, button, .news-card, select, input, textarea');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
+            el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
+        });
     </script>
 </body>
 </html>
