@@ -28,11 +28,11 @@
             background-color: transparent; color: var(--text-main); 
             font-family: 'Space Grotesk', sans-serif; 
             overflow-x: hidden; 
-            cursor: none; /* CACHE LE CURSEUR PAR DÉFAUT (Sauf sur mobile) */
+            cursor: none; /* CACHE LE CURSEUR PAR DÉFAUT */
         }
         html { scroll-behavior: smooth; background-color: #000; scroll-padding-top: 100px; }
-        a { text-decoration: none; color: inherit; transition: 0.3s; cursor: none; } /* Curseur custom sur les liens */
-        button, input, textarea, select { cursor: none; } /* Curseur custom sur les inputs */
+        a { text-decoration: none; color: inherit; transition: 0.3s; cursor: none; } 
+        button, input, textarea, select { cursor: none; } 
         ul { list-style: none; padding: 0; margin: 0; }
 
         /* --- CURSEUR CUSTOM --- */
@@ -49,7 +49,6 @@
             transition: width 0.2s, height 0.2s, background-color 0.2s;
             box-shadow: 0 0 20px rgba(224, 0, 91, 0.3);
         }
-        /* État Hover du curseur */
         body.hovering .cursor-outline {
             width: 70px; height: 70px;
             background-color: rgba(224, 0, 91, 0.1);
@@ -129,19 +128,58 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
-        /* TITRE GLOW */
         .text-glow-anim { background: linear-gradient(to right, #ffffff 20%, #e0005b 50%, #2D5BFF 80%, #ffffff 100%); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
 
-        .intro-section { padding: 80px 10%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 60px; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--glass-border); }
-        .intro-text { flex: 1; min-width: 300px; }
+        /* --- SECTION INTRO + CAMION --- */
+        .intro-section { 
+            padding: 80px 10% 160px; /* GROSSE MARGE BASSE POUR LE CAMION */
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 60px; 
+            background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--glass-border); 
+            position: relative; overflow: hidden; 
+        }
+        .intro-text { flex: 1; min-width: 300px; z-index: 2; position: relative; }
         .intro-text h2 { font-family: 'Syne'; font-size: 2.5rem; margin-bottom: 20px; line-height: 1.2; }
         .intro-text p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; }
         .brand-highlight { color: var(--accent); font-weight: 700; }
         .brand-highlight-link { color: var(--accent); font-weight: 700; text-decoration: underline; transition: 0.3s; }
-        .sticker-wrapper { display: inline-block; perspective: 1000px; padding: 20px; }
+        .sticker-wrapper { display: inline-block; perspective: 1000px; padding: 20px; z-index: 2; }
         .sticker-30ans { width: 220px; height: auto; transition: transform 0.1s ease-out, filter 0.3s ease; filter: drop-shadow(0 0 15px rgba(224, 0, 91, 0.3)); will-change: transform; }
-        .truck-mini { height: 40px; width: auto; vertical-align: middle; margin-left: 10px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); transition: 0.3s; }
-        .truck-mini:hover { transform: translateX(5px) scale(1.1); filter: drop-shadow(0 0 10px var(--accent)); }
+        
+        /* --- CAMION 7RENTAL (SUR SA PROPRE PISTE) --- */
+        .truck-track-container {
+            position: absolute; 
+            bottom: 20px; /* COLLÉ AU BAS DE LA SECTION */
+            left: 0; 
+            width: 100%; 
+            height: 100px; /* HAUTEUR SUFFISANTE POUR L'OMBRE */
+            z-index: 5; 
+            pointer-events: none; /* Laisse passer les clics */
+            overflow: visible; /* Pour ne pas couper l'ombre */
+        }
+
+        .moving-truck {
+            height: 65px; 
+            width: auto; 
+            position: absolute; 
+            left: -300px; 
+            bottom: 10px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); 
+            transition: all 0.3s;
+            cursor: pointer;
+            pointer-events: auto; /* Réactive le clic sur le camion */
+            animation: driveAcross 18s linear infinite;
+        }
+
+        @keyframes driveAcross {
+            0% { transform: translateX(0); left: -300px; }
+            100% { transform: translateX(0); left: 100vw; } 
+        }
+
+        .moving-truck:hover {
+            animation-play-state: paused; 
+            filter: drop-shadow(0 0 20px rgba(224, 0, 91, 0.8)) brightness(1.1); /* GLOW ROSE DIFFUS */
+            transform: scale(1.05);
+        }
 
         .trust-section { padding: 60px 10%; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--glass-border); }
         .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; align-items: center; }
@@ -157,7 +195,15 @@
         .section-padding { padding: 100px 10%; }
         .grid-title { font-family: 'Syne', sans-serif; font-size: 3rem; margin-bottom: 60px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); text-transform: uppercase; text-align: center; }
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; transition: 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 300px; backdrop-filter: blur(10px); min-width: 0; }
+        
+        .card { 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); 
+            border-radius: 20px; padding: 30px; transition: 0.4s; 
+            position: relative; overflow: hidden; 
+            display: flex; flex-direction: column; justify-content: space-between; 
+            height: 300px; backdrop-filter: blur(10px); 
+            min-width: 0; cursor: pointer; 
+        }
         .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%); z-index: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
         .card:hover::before { opacity: 1; }
         .card::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(224, 0, 91, 0.4), transparent 40%); z-index: -1; border-radius: 20px; opacity: 0; transition: opacity 0.5s; }
@@ -166,10 +212,19 @@
         .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .card-icon { font-size: 2rem; margin-bottom: 15px; color: white; transition: 0.3s;}
         .card:hover .card-icon { color: var(--accent); transform: scale(1.1); }
-        .card h3 { font-size: 1.3rem; margin-bottom: 10px; font-family: 'Syne', sans-serif; text-transform: uppercase; word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+        
+        .card h3 { 
+            font-size: 1.3rem; margin-bottom: 10px; font-family: 'Syne', sans-serif; 
+            text-transform: uppercase; word-wrap: break-word; overflow-wrap: anywhere; hyphens: auto; 
+        }
+        
         .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
-        .card-link { margin-top: auto; color: white; font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; position: relative; z-index: 1; }
-        .card:hover .card-link i { transform: translateX(5px); color: var(--primary); }
+        .card-link { margin-top: auto; color: white; font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; position: relative; z-index: 1; transition: 0.3s; }
+        .card:hover .card-link { color: var(--primary); }
+        .card:hover .card-link i { transform: translateX(5px); }
+
+        /* CÉSURE MOBILE SPÉCIFIQUE */
+        .mobile-break { display: none; }
 
         /* --- DETAILS CENTRÉS --- */
         .expertise-detail-section { border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); }
@@ -180,7 +235,7 @@
         .feature-list li { font-family: 'Syne'; font-weight: 700; display: flex; align-items: center; gap: 15px; justify-content: center; }
         .feature-list li i { color: var(--accent); }
         .tech-gallery { display: flex; width: 100%; height: 300px; gap: 10px; margin-top: 40px; }
-        .tech-item { flex: 1; border-radius: 20px; background-position: center; background-size: cover; background-repeat: no-repeat; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); filter: grayscale(100%) brightness(0.9); position: relative; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; overflow: hidden; }
+        .tech-item { flex: 1; border-radius: 20px; background-position: center; background-size: cover; background-repeat: no-repeat; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); filter: grayscale(100%) brightness(0.9); position: relative; border: 1px solid rgba(255,255,255,0.1); cursor: zoom-in; overflow: hidden; }
         .tech-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); opacity: 1; transition: 0.4s; }
         .tech-item:hover { flex: 4; filter: grayscale(0%) brightness(1.1); border-color: var(--accent); box-shadow: 0 0 40px rgba(224,0,91,0.3); z-index: 10; }
         .tech-item:hover::after { opacity: 0; }
@@ -190,7 +245,7 @@
         #img-lightbox.active { display: flex; }
         #lightbox-img { max-width: 90vw; max-height: 90vh; border: 2px solid var(--accent); border-radius: 10px; }
 
-        /* FORMULAIRE */
+        /* --- FORMULAIRE --- */
         .contact-section { padding: 100px 5%; display: flex; justify-content: center; align-items: center; position: relative; border-top: 1px solid var(--glass-border); margin-top: 50px;}
         .glass-form-container { width: 100%; max-width: 1000px; background: rgba(10, 10, 10, 0.7); border: 1px solid var(--glass-border); border-radius: 30px; padding: 60px; position: relative; overflow: hidden; box-shadow: 0 20px 80px rgba(0,0,0,0.8); backdrop-filter: blur(30px); }
         .glass-form-container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
@@ -217,6 +272,7 @@
         .contact-list li { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
         .contact-list li i { color: var(--accent); font-size: 1.1rem; }
         .contact-list li a { color: var(--text-muted); transition: 0.3s; }
+        .contact-list li a:hover { color: white; padding-left: 5px; }
         .social-links { display: flex; gap: 15px; justify-content: center; }
         .social-btn { width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
         .social-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
@@ -241,9 +297,11 @@
             .glass-form-container { padding: 20px; }
             .tech-gallery { flex-direction: column; height: 600px; } 
             .tech-item:hover { flex: 2; }
-            /* On cache le curseur custom sur mobile */
             .cursor-dot, .cursor-outline { display: none; }
-            body, a, button { cursor: auto; }
+            body { cursor: auto; }
+
+            /* CÉSURE MOBILE FORCEE */
+            .mobile-break { display: block; }
         }
     </style>
 </head>
@@ -264,7 +322,7 @@
 
     <div class="mobile-menu-overlay" id="mobileMenu">
         <div style="position: absolute; top: 20px; right: 20px; font-size: 2rem; color: white; cursor: pointer;" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
-        <ul><li><a href="realisations.html" onclick="toggleMenu()">Nos réalisations</a></li><li><a href="cle-en-main.html" onclick="toggleMenu()">Clé en main</a></li><li><a href="actualites.html" onclick="toggleMenu()">L'actu</a></li><li><a href="catalogue.html" onclick="toggleMenu()">Catalogue scénique</a></li></ul>
+        <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="cle-en-main.html">Clé en main</a></li><li><a href="actualites.html">L'actu</a></li><li><a href="catalogue.html">Catalogue scénique</a></li></ul>
     </div>
 
     <section class="hero">
@@ -278,10 +336,13 @@
 
     <section class="intro-section reveal">
         <div class="intro-text"><h2>Conjuguer audace, savoir-faire et émotion.</h2><p>Depuis 30 ans, <span class="brand-highlight">PRODJEKT</span> maîtrise l'art de la technique pour sublimer vos événements. Au-delà d'un cadre technique parfaitement maîtrisé, nous insufflons ce supplément d'âme qui fait la différence.</p>
-        <p>Adossés à la logistique de notre plateforme <a href="https://7rental.fr/" target="_blank" class="brand-highlight-link">7Rental (SLS Group)</a>
-        <img src="https://www.prodjekt.fr/wp-content/uploads/2025/09/Camion-7rental.png" alt="Logistique" class="truck-mini" onclick="window.open('https://7rental.fr/', '_blank')">
-        , nous vous accompagnons avec des moyens à la hauteur de vos ambitions.</p></div>
+        <p>Adossés à la logistique de notre plateforme <a href="https://7rental.fr/" target="_blank" class="brand-highlight-link">7Rental (SLS Group)</a>, nous vous accompagnons avec des moyens à la hauteur de vos ambitions.</p>
+        </div>
         <div class="sticker-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Firefly_GPT_sticker-holographique-avec-texte-30-ans-dexperience-.-Fond-transparent-822982.png" alt="30 ans" class="sticker-30ans"></div>
+        
+        <div class="truck-track-container">
+             <img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Camion-7Rental-profil.png" alt="Camion 7Rental" class="moving-truck" onclick="window.open('https://7rental.fr/', '_blank')">
+        </div>
     </section>
 
     <section class="trust-section reveal">
@@ -296,57 +357,37 @@
     <section class="section-padding">
         <h2 class="grid-title reveal text-glow-anim">NOS EXPERTISES</h2>
         <div class="bento-grid" id="cards-container">
-            <div class="card reveal" onclick="location.href='#entreprise'"><div class="card-content"><i class="fas fa-handshake card-icon"></i><h3>Evénement Entreprise</h3><p>Vœux • Conventions • Inaugurations<br>Lancements • Tradeshow • Célébrations</p></div><a href="#entreprise" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            <div class="card reveal" onclick="location.href='#mapping'"><div class="card-content"><i class="fas fa-project-diagram card-icon"></i><h3>Mapping Vidéo</h3><p>Architectural • Monumental<br>Illusion 3D • Anamorphose</p></div><a href="#mapping" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            <div class="card reveal" onclick="location.href='#defile'"><div class="card-content"><i class="fas fa-star card-icon"></i><h3>Défilé de mode</h3><p>Catwalk • Scénographie<br>Lumière • Captation</p></div><a href="#defile" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            <div class="card reveal" onclick="location.href='#emotion'"><div class="card-content"><i class="fas fa-wifi card-icon"></i><h3>E-motion</h3><p>Streaming • Captation • Web<br>Plateaux TV • Salles virtuelles</p></div><a href="#emotion" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            <div class="card reveal" onclick="location.href='#sport'"><div class="card-content"><i class="fas fa-trophy card-icon"></i><h3>Evénement sportif</h3><p>Championnats • Show d'entrée<br>Sonorisation Stade • Écrans</p></div><a href="#sport" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            <div class="card reveal" onclick="location.href='#commemoration'"><div class="card-content"><i class="fas fa-monument card-icon"></i><h3>Commémoration</h3><p>Hommage National • Traduction<br>Sonorisation • Mise en lumière</p></div><a href="#commemoration" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            <div class="card reveal" onclick="location.href='#concert'"><div class="card-content"><i class="fas fa-guitar card-icon"></i><h3>Concert</h3><p>Tournées • Showcase • Live<br>Neige & Sable • Régie</p></div><a href="#concert" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
-            <div class="card reveal" onclick="location.href='#festival'"><div class="card-content"><i class="fas fa-ticket-alt card-icon"></i><h3>Festival</h3><p>Scène Outdoor • Technique XXL<br>Grands Formats • Énergie</p></div><a href="#festival" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="card reveal" onclick="location.href='#entreprise'"><div class="card-content"><i class="fas fa-handshake card-icon"></i><h3>Evénement Entreprise</h3><p>Conventions & lancements.</p></div><a href="#entreprise" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="card reveal" onclick="location.href='#mapping'"><div class="card-content"><i class="fas fa-project-diagram card-icon"></i><h3>Mapping Vidéo</h3><p>Projection monumentale.</p></div><a href="#mapping" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="card reveal" onclick="location.href='#defile'"><div class="card-content"><i class="fas fa-star card-icon"></i><h3>Défilé de mode</h3><p>Catwalk & Light design.</p></div><a href="#defile" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="card reveal" onclick="location.href='#emotion'"><div class="card-content"><i class="fas fa-wifi card-icon"></i><h3>E-motion</h3><p>Digital & Streaming.</p></div><a href="#emotion" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="card reveal" onclick="location.href='#sport'"><div class="card-content"><i class="fas fa-trophy card-icon"></i><h3>Evénement sportif</h3><p>Technique Outdoor.</p></div><a href="#sport" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            
+            <div class="card reveal" onclick="location.href='#commemoration'"><div class="card-content"><i class="fas fa-monument card-icon"></i><h3>COMMÉMO<span class="mobile-break"><br></span>RATION</h3><p>Solennité & Patrimoine.</p></div><a href="#commemoration" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            
+            <div class="card reveal" onclick="location.href='#concert'"><div class="card-content"><i class="fas fa-guitar card-icon"></i><h3>Concert</h3><p>Live, Son & Lumière.</p></div><a href="#concert" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="card reveal" onclick="location.href='#festival'"><div class="card-content"><i class="fas fa-ticket-alt card-icon"></i><h3>Festival</h3><p>Solutions XXL.</p></div><a href="#festival" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
             <div class="card reveal" onclick="location.href='cle-en-main.html'"><div class="card-content"><i class="fas fa-key card-icon"></i><h3>Clé en main</h3><p>Gestion A à Z.</p></div><a href="cle-en-main.html" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
         </div>
     </section>
 
     <section id="entreprise" class="expertise-detail-section section-padding reveal">
         <h2 class="grid-title text-glow-anim">ÉVÉNEMENT ENTREPRISE</h2>
-        <div class="detail-content"><p class="lead-text">Transformez vos enjeux stratégiques en expériences mémorables.</p><div class="detail-text"><p>Parce que chaque prise de parole compte, nous concevons l'écrin technique qui donnera de la portée à votre message. De la scénographie immersive à la diffusion sonore cristalline, nous garantissons un impact maximal pour vos publics.</p><p>Nous intervenons sur tous les formats corporate avec une rigueur absolue :</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Vœux & Cérémonies</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Conventions & Séminaires</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Inaugurations</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Lancements de produits</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Tradeshow / Salons</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Célébrations & Galas</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_49293.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4088.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/490860147_1218506650285133_5487751675451188613_n.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour mon événement corporate</a></div></div>
+        <div class="detail-content"><p class="lead-text">Transformez vos enjeux stratégiques en expériences mémorables.</p><div class="detail-text"><p>Parce que chaque prise de parole compte, nous concevons l'écrin technique qui donnera de la portée à votre message.</p><p>Nous intervenons sur tous les formats corporate avec une rigueur absolue :</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Vœux & Cérémonies</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Conventions & Séminaires</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Inaugurations</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Lancements de produits</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Tradeshow / Salons</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Célébrations & Galas</li></ul>
+        <div class="tech-gallery">
+            <div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_49293.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_49293.jpg')"></div>
+            <div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4088.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4088.jpg')"></div>
+            <div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/490860147_1218506650285133_5487751675451188613_n.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/490860147_1218506650285133_5487751675451188613_n.jpg')"></div>
+        </div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Échangeons sur votre projet</a></div></div>
     </section>
 
-    <section id="mapping" class="expertise-detail-section section-padding reveal">
-        <h2 class="grid-title text-glow-anim">MAPPING VIDÉO</h2>
-        <div class="detail-content"><p class="lead-text" style="text-transform: uppercase;">PROJETEZ L’ILLUSION, JOUEZ AVEC LES RELIEFS</p><div class="detail-text"><p>Afin de fournir aux créateurs de mappings vidéo les moyens d’animer virtuellement des objets ou architectures éclairés lors de spectacles nocturnes, Prodjekt assure une prestation complète en Architectural Mapping.</p><p>Nous mettons en œuvre la puissance technique nécessaire pour transformer le réel et créer l'émerveillement.</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Projection Monumentale</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Mapping sur Architecture</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Illusion & Anamorphose</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Projecteurs Laser Haute Puissance</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Serveurs Médias (Modulo / Resolume)</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/489307705_1209387337863731_400210873256550553_n.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/131662618_3640528619364317_888167611572323047_n.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/A7I02467.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour projet Mapping</a></div></div>
-    </section>
-
-    <section id="defile" class="expertise-detail-section section-padding reveal">
-        <h2 class="grid-title text-glow-anim">DÉFILÉ DE MODE</h2>
-        <div class="detail-content"><p class="lead-text" style="text-transform: uppercase;">CAPTEZ LES REGARDS, LANCEZ LA TENDANCE</p><div class="detail-text"><p>Étape déterminante pour la présentation d’une nouvelle collection, le défilé de mode est fait de contraintes et d’audace !</p><p>En intérieur comme en extérieur, PRODJEKT donne du style au catwalk et aux créations avec une mise en lumière et une scénographie sur mesure.</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Conception de catwalk</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Mise en lumière</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Sonorisation</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Captation et enregistrement vidéo</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Miss-Arras-2014.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fashion-show-a-Arc-1950.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Defile-Gerard-Darel-et-Pablo-2018-2.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour Défilé</a></div></div>
-    </section>
-
-    <section id="emotion" class="expertise-detail-section section-padding reveal">
-        <h2 class="grid-title text-glow-anim">E-MOTION</h2>
-        <div class="detail-content"><p class="lead-text" style="text-transform: uppercase;">E-MOTION, L'ÉMOTION EN NUMÉRIQUE</p><div class="detail-text"><p>Partagez toute l’émotion de votre événement en le retransmettant sur vos réseaux sociaux et/ou votre site web. E-concert, e-festival, e-fashion, e-sport... chaque événement peut être associé au numérique.</p><p>Profitez également de l’importance du web pour toucher une audience plus grande. De la conception technique à la diffusion, PRODJEKT s’occupe de tout.</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Captation vidéo & son</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Retransmission Live & Social</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Post-production</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Salles de conférence virtuelles</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Mise en lumière & Sonorisation</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Décor d’arrière-plan</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fun-Radio-Live-Montbeliard-2019.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2020/11/886.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4107.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour événement digital</a></div></div>
-    </section>
-
-    <section id="sport" class="expertise-detail-section section-padding reveal">
-        <h2 class="grid-title text-glow-anim">ÉVÉNEMENT SPORTIF</h2>
-        <div class="detail-content"><p class="lead-text" style="text-transform: uppercase;">CÉLÉBREZ LA COMPÉTITION, PARTAGEZ L’INTENSITÉ</p><div class="detail-text"><p>Championnats, événements sportifs nationaux et internationaux… Présent sur tous types d’événements, PRODJEKT met en lumière l’entrée des athlètes et sublime leurs performances, en respectant les réglementations dans le milieu sportif.</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Show d'entrée des athlètes</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Sonorisation de stade</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Éclairage sportif réglementaire</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Écrans géants & Scores</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Structures et Arches</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4638.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/WWE-Catch-2015-3.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_7891.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour événement sportif</a></div></div>
-    </section>
-
-    <section id="commemoration" class="expertise-detail-section section-padding reveal">
-        <h2 class="grid-title text-glow-anim">COMMÉMORATION</h2>
-        <div class="detail-content"><p class="lead-text" style="text-transform: uppercase;">RENDEZ UN HOMMAGE MÉMORABLE, PROLONGEZ LE SOUVENIR</p><div class="detail-text"><p>Anniversaire, commémoration nationale ou internationale… Autant d’instants solennels qui inspirent PRODJEKT à concevoir un encadrement technique particulier pour leur donner toute leur dimension.</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Sonorisation</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Mise en lumière</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Cabine de traduction</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Structure</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Écran LED</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Mapping Vidéo</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Commemoration-du-centenaire-de-la-bataille-de-Vimy-2017-2.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_3645.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Ceremonie-commemorative-de-la-Bataille-du-Hamel-2018.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour commémoration</a></div></div>
-    </section>
-
-    <section id="concert" class="expertise-detail-section section-padding reveal">
-        <h2 class="grid-title text-glow-anim">CONCERT</h2>
-        <div class="detail-content"><p class="lead-text" style="text-transform: uppercase;">VIVEZ AU COEUR DU LIVE, DIFFUSEZ L’ÉMOTION</p><div class="detail-text"><p>Tournées, showcase, concerts neige & sable… PRODJEKT met son expérience et son imagination au service de vos objectifs, en orchestrant les différents moyens techniques nécessaires.</p><p>De la mise en place des scènes, en passant par le montage, les installations son & lumière jusqu’à la régie, tout est pensé pour offrir un moment rare.</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Scène indoor</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Sonorisation</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Mise en lumière</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Structures éphémères dômes</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Écran LED</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Captation son & vidéo</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/DSC_3170.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Concert-du-nouvel-an-Tignes-2013.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/DJI_0062.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour concert / live</a></div></div>
-    </section>
-
-    <section id="festival" class="expertise-detail-section section-padding reveal">
-        <h2 class="grid-title text-glow-anim">FESTIVAL</h2>
-        <div class="detail-content"><p class="lead-text" style="text-transform: uppercase;">VIBREZ AU MAXIMUM, TRANSMETTEZ L'ENERGIE</p><div class="detail-text"><p>Présents sur les festivals pour assurer l’enchaînement de concerts sur plusieurs jours, PRODJEKT place ainsi sur grand format son expérience et son imagination au service de vos objectifs, en orchestrant les différents moyens techniques adaptés et nécessaires tout au long de l’événement.</p></div><ul class="feature-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; max-width: 100%;"><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Scène outdoor</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Sonorisation</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Mise en lumière</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Structures éphémères dômes</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Écran LED</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Captation son & vidéo</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Crash barrière</li><li style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--glass-border);"><i class="fas fa-check"></i> Groupe électrogène</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2020/03/Touquet-Music-Beach-Festival-2019.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_5665.jpg');"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_6684.jpg');"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Devis pour festival</a></div></div>
-    </section>
+    <section id="mapping" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">MAPPING VIDÉO</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_7286.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_7286.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0986.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0986.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0997.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0997.jpg')"></div></div></div></section>
+    <section id="defile" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">DÉFILÉ DE MODE</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Miss-Arras-2014.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Miss-Arras-2014.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fashion-show-a-Arc-1950.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fashion-show-a-Arc-1950.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Defile-Gerard-Darel-et-Pablo-2018-2.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Defile-Gerard-Darel-et-Pablo-2018-2.jpg')"></div></div></div></section>
+    <section id="emotion" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">E-MOTION</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fun-Radio-Live-Montbeliard-2019.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fun-Radio-Live-Montbeliard-2019.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2020/11/886.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2020/11/886.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4107.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4107.jpg')"></div></div></div></section>
+    <section id="sport" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">ÉVÉNEMENT SPORTIF</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4638.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4638.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/WWE-Catch-2015-3.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/WWE-Catch-2015-3.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_7891.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_7891.jpg')"></div></div></div></section>
+    <section id="commemoration" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">COMMÉMORATION</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Commemoration-du-centenaire-de-la-bataille-de-Vimy-2017-2.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Commemoration-du-centenaire-de-la-bataille-de-Vimy-2017-2.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_3645.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_3645.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Ceremonie-commemorative-de-la-Bataille-du-Hamel-2018.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Ceremonie-commemorative-de-la-Bataille-du-Hamel-2018.jpg')"></div></div></div></section>
+    <section id="concert" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">CONCERT</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/DSC_3170.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/DSC_3170.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Concert-du-nouvel-an-Tignes-2013.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Concert-du-nouvel-an-Tignes-2013.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/DJI_0062.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/DJI_0062.jpg')"></div></div></div></section>
+    <section id="festival" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">FESTIVAL</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2020/03/Touquet-Music-Beach-Festival-2019.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2020/03/Touquet-Music-Beach-Festival-2019.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_5665.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_5665.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_6684.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/07/IMG_6684.jpg')"></div></div></div></section>
 
     <section id="contact" class="contact-section reveal">
         <div class="glass-form-container">
@@ -416,7 +457,7 @@
             &copy; 2025 PRODJEKT. Tous droits réservés.
         </div>
     </footer>
-
+    
     <div id="img-lightbox" onclick="closeLightbox()">
         <img id="lightbox-img" src="" alt="">
     </div>
@@ -505,12 +546,11 @@
         cursorDot.style.top = `${posY}px`;
         cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
     });
-    const interactiveElements = document.querySelectorAll('a, button, .card, .sticker-wrapper, select, input, textarea, .tech-item');
+    const interactiveElements = document.querySelectorAll('a, button, .card, .sticker-wrapper, select, input, textarea, .tech-item, .truck-mini');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
         el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
     });
-
 </script>
 
 </body>
