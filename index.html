@@ -85,7 +85,7 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         .text-glow-anim { background: linear-gradient(to right, #ffffff 20%, #e0005b 50%, #2D5BFF 80%, #ffffff 100%); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
 
-        /* SECTION INTRO */
+        /* SECTION INTRO & CAMION */
         .intro-section { display: flex; flex-direction: column; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--glass-border); padding-top: 80px; position: relative; overflow: hidden; }
         .intro-content-wrapper { padding: 0 10%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 60px; z-index: 2; margin-bottom: 40px; }
         .intro-text { flex: 1; min-width: 300px; }
@@ -96,8 +96,7 @@
         .sticker-wrapper { display: inline-block; perspective: 1000px; padding: 20px; z-index: 2; }
         .sticker-30ans { width: 220px; height: auto; transition: transform 0.1s ease-out, filter 0.3s ease; filter: drop-shadow(0 0 15px rgba(224, 0, 91, 0.3)); will-change: transform; }
         
-        /* CAMION */
-        .truck-track-container { position: relative; width: 100%; height: 90px; z-index: 1; margin-top: auto; pointer-events: none; }
+        .truck-track-container { position: relative; width: 100%; height: 90px; z-index: 1; margin-top: 20px; pointer-events: none; }
         .moving-truck { height: 65px; width: auto; position: absolute; left: -300px; bottom: 15px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); transition: all 0.3s; cursor: pointer; pointer-events: auto; animation: driveAcross 18s linear infinite; }
         @keyframes driveAcross { 0% { transform: translateX(0); left: -300px; } 100% { transform: translateX(0); left: 100vw; } }
         .moving-truck:hover { animation-play-state: paused; filter: drop-shadow(0 0 25px rgba(224, 0, 91, 0.8)); transform: scale(1.05); }
@@ -117,7 +116,7 @@
         .grid-title { font-family: 'Syne', sans-serif; font-size: 3rem; margin-bottom: 60px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); text-transform: uppercase; text-align: center; }
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         
-        /* COMETE ET CARTES */
+        /* CARTES */
         .card { background: transparent; border-radius: 20px; padding: 30px; transition: 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 300px; min-width: 0; cursor: pointer; z-index: 1; border: 1px solid rgba(255,255,255,0.1); }
         .card::after { content: ""; position: absolute; inset: 2px; background: var(--card-bg); border-radius: 18px; z-index: -1; }
         .card::before { content: ""; position: absolute; top: 50%; left: 50%; width: 200%; height: 200%; background: conic-gradient(transparent 270deg, #ffffff 360deg); transform: translate(-50%, -50%); z-index: -2; opacity: 0; pointer-events: none; }
@@ -128,16 +127,14 @@
         .card-content { position: relative; z-index: 2; }
         .card-icon { font-size: 2rem; margin-bottom: 15px; color: white; transition: 0.3s;}
         .card:hover .card-icon { color: var(--accent); transform: scale(1.1); }
-        
-        /* TITRES */
         .card h3 { font-size: 1.3rem; margin-bottom: 10px; font-family: 'Syne', sans-serif; text-transform: uppercase; word-wrap: break-word; overflow-wrap: anywhere; hyphens: auto; }
         .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
         .card-link { margin-top: auto; color: white; font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; position: relative; z-index: 2; transition: 0.3s; }
         .card:hover .card-link { color: var(--primary); }
         .card:hover .card-link i { transform: translateX(5px); }
         
-        /* CÉSURE MOBILE (CACHÉE PAR DÉFAUT) */
-        .mobile-break { display: none; }
+        /* Césure Mobile */
+        .force-break { display: none; }
 
         /* --- DETAILS CENTRÉS --- */
         .expertise-detail-section { border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); }
@@ -158,7 +155,7 @@
         #img-lightbox.active { display: flex; }
         #lightbox-img { max-width: 90vw; max-height: 90vh; border: 2px solid var(--accent); border-radius: 10px; }
 
-        /* --- FORMULAIRE --- */
+        /* FORMULAIRE */
         .contact-section { padding: 100px 5%; display: flex; justify-content: center; align-items: center; position: relative; border-top: 1px solid var(--glass-border); margin-top: 50px;}
         .glass-form-container { width: 100%; max-width: 1000px; background: rgba(10, 10, 10, 0.7); border: 1px solid var(--glass-border); border-radius: 30px; padding: 60px; position: relative; overflow: hidden; box-shadow: 0 20px 80px rgba(0,0,0,0.8); backdrop-filter: blur(30px); }
         .glass-form-container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
@@ -167,16 +164,10 @@
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .full-width { grid-column: span 2; }
         .input-group { position: relative; margin-bottom: 10px; }
+        .input-field { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid #444; padding: 18px 20px; border-radius: 12px; color: white; font-size: 1rem; transition: 0.3s; z-index: 50; position: relative; }
         
-        /* INPUTS ET LABELS */
-        .input-field { 
-            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid #444; padding: 18px 20px; border-radius: 12px; color: white; font-size: 1rem; transition: 0.3s; 
-            z-index: 50; /* Z-INDEX ELEVÉ POUR MOBILE */
-            position: relative; 
-        }
-        
-        /* ICONE CALENDRIER EN BLANC */
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; z-index: 51; }
+        /* ICONE DATE BLANCHE */
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; z-index: 51; position: relative; }
         
         .input-field:focus { border-color: var(--accent); background: rgba(224,0,91,0.05); box-shadow: 0 0 15px rgba(224,0,91,0.2); }
         .input-label { position: absolute; left: 20px; top: 18px; color: #888; pointer-events: none; transition: 0.3s; font-size: 0.9rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
@@ -195,7 +186,6 @@
         .contact-list li { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
         .contact-list li i { color: var(--accent); font-size: 1.1rem; }
         .contact-list li a { color: var(--text-muted); transition: 0.3s; }
-        .contact-list li a:hover { color: white; padding-left: 5px; }
         .social-links { display: flex; gap: 15px; justify-content: center; }
         .social-btn { width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
         .social-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
@@ -209,18 +199,18 @@
             .burger-menu-btn { display: block; }
             .cta-btn { font-size: 0.7rem; padding: 8px 12px; margin: 0 10px; }
             .hero h1 { font-size: 1.8rem; }
-            
             .intro-section { padding: 50px 5% 100px; text-align: center; }
             .intro-content-wrapper { justify-content: center; }
             .sticker-wrapper { margin: 0 auto; }
-            
             .section-padding { padding: 60px 5%; }
             .bento-grid { grid-template-columns: 1fr; gap: 20px; }
             
-            /* CORRECTIF COMMEMORATION MOBILE : Hauteur auto + Césure */
+            /* FIX MOBILE CARTE COMMEMO */
             .card { height: auto !important; min-height: 260px; padding: 20px; }
-            .card h3 { font-size: 1.1rem; white-space: normal; }
-            .mobile-break { display: block; } /* Active le saut de ligne */
+            /* Titre réduit pour éviter overflow */
+            .card h3 { font-size: 0.9rem !important; line-height: 1.4 !important; }
+            .long-word { font-size: 0.9rem !important; } /* Sécurité */
+            .force-break { display: inline; } /* Active la césure */
             
             .form-grid, .feature-list, .footer-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
@@ -228,12 +218,10 @@
             .tech-gallery { flex-direction: column; height: 600px; } 
             .tech-item:hover { flex: 2; }
             
-            /* Désactiver curseur et effet comète sur mobile */
+            /* DESACTIVER EFFETS SOURIS */
             .cursor-dot, .cursor-outline { display: none; }
-            .card:hover::before { animation: none; opacity: 0; }
-            
-            /* FORCER LE CLIC SUR LES INPUTS MOBILE */
             body, a, button, input, select, textarea { cursor: auto !important; }
+            .card:hover::before { animation: none; opacity: 0; }
         }
     </style>
 </head>
@@ -259,10 +247,7 @@
 
     <section class="hero">
         <div class="hero-video-wrapper"><video autoplay muted loop playsinline><source src="https://www.prodjekt.fr/wp-content/uploads/2025/06/La-Garden-Fairway-720p.mp4" type="video/mp4"></video><div class="hero-video-overlay-specific"></div></div>
-        <div class="hero-content reveal">
-            <h1>Partenaire technique des <br><span class="gradient-text">créateurs d’événements audacieux</span></h1>
-            <p class="shimmer-text">Son . Lumière . Vidéo . Structure</p>
-        </div>
+        <div class="hero-content reveal"><h1>Partenaire technique des <br><span class="gradient-text">créateurs d’événements audacieux</span></h1><p class="shimmer-text">Son . Lumière . Vidéo . Structure</p></div>
         <div class="scroll-indicator"><i class="fas fa-chevron-down" style="color: white;"></i></div>
     </section>
 
@@ -272,15 +257,13 @@
             <p>Adossés à la logistique de notre plateforme <a href="https://7rental.fr/" target="_blank" class="brand-highlight-link">7Rental (SLS Group)</a>, nous vous accompagnons avec des moyens à la hauteur de vos ambitions.</p></div>
             <div class="sticker-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Firefly_GPT_sticker-holographique-avec-texte-30-ans-dexperience-.-Fond-transparent-822982.png" alt="30 ans" class="sticker-30ans"></div>
         </div>
-        <div class="truck-track-container">
-             <img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Camion-7Rental-profil.png" alt="Camion 7Rental" class="moving-truck" onclick="window.open('https://7rental.fr/', '_blank')">
-        </div>
+        <div class="truck-track-container"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Camion-7Rental-profil.png" alt="Camion 7Rental" class="moving-truck" onclick="window.open('https://7rental.fr/', '_blank')"></div>
     </section>
 
     <section class="trust-section reveal">
         <div class="trust-grid">
-            <a href="https://www.synpase.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/labelogo-removebg-preview.png" alt="Label Spectacle Vivant" class="trust-img"><div class="trust-name">Spectacle Vivant®</div><div class="trust-desc">Label 439 : Prestataire technique expert</div></div></a>
-            <a href="https://www.prestadd.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/logo_label_prestadd-removebg-preview.png" alt="Label Prestadd" class="trust-img"><div class="trust-name">Prestadd®</div><div class="trust-desc">Label 184 : Engagement RSE & Durable</div></div></a>
+            <a href="https://www.synpase.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/labelogo-removebg-preview.png" alt="Label" class="trust-img"><div class="trust-name">Spectacle Vivant®</div><div class="trust-desc">Label 439 : Prestataire technique expert</div></div></a>
+            <a href="https://www.prestadd.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/logo_label_prestadd-removebg-preview.png" alt="Label" class="trust-img"><div class="trust-name">Prestadd®</div><div class="trust-desc">Label 184 : Engagement RSE & Durable</div></div></a>
             <a href="https://www.l-acoustics.com/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2024/11/653c31a72017e45a1a845bab_lacoustic-Logo-1080x1080-1.png" alt="L-Acoustics" class="trust-img"><div class="trust-name">L-Acoustics</div><div class="trust-desc">Partenaire Système Audio Certifié</div></div></a>
             <a href="https://www.synpase.fr/" target="_blank" class="trust-link"><div class="trust-item"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/logo-synpase-removebg-preview.png" alt="Synpase" class="trust-img"><div class="trust-name">SYNPASE</div><div class="trust-desc">Membre du Syndicat National</div></div></a>
         </div>
@@ -295,7 +278,7 @@
             <div class="card reveal" onclick="location.href='#emotion'"><div class="card-content"><i class="fas fa-wifi card-icon"></i><h3>E-motion</h3><p>Digital & Streaming.</p></div><a href="#emotion" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
             <div class="card reveal" onclick="location.href='#sport'"><div class="card-content"><i class="fas fa-trophy card-icon"></i><h3>Evénement sportif</h3><p>Technique Outdoor.</p></div><a href="#sport" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
             
-            <div class="card reveal" onclick="location.href='#commemoration'"><div class="card-content"><i class="fas fa-monument card-icon"></i><h3>COMMÉMO<br class="mobile-break">RATION</h3><p>Solennité & Patrimoine.</p></div><a href="#commemoration" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
+            <div class="card reveal" onclick="location.href='#commemoration'"><div class="card-content"><i class="fas fa-monument card-icon"></i><h3 class="long-word">COMMÉMO<span class="force-break"><br></span>RATION</h3><p>Solennité & Patrimoine.</p></div><a href="#commemoration" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
             
             <div class="card reveal" onclick="location.href='#concert'"><div class="card-content"><i class="fas fa-guitar card-icon"></i><h3>Concert</h3><p>Live, Son & Lumière.</p></div><a href="#concert" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
             <div class="card reveal" onclick="location.href='#festival'"><div class="card-content"><i class="fas fa-ticket-alt card-icon"></i><h3>Festival</h3><p>Solutions XXL.</p></div><a href="#festival" class="card-link">En savoir plus <i class="fas fa-arrow-right"></i></a></div>
@@ -303,8 +286,7 @@
         </div>
     </section>
 
-    <section id="entreprise" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">ÉVÉNEMENT ENTREPRISE</h2><div class="detail-content"><p class="lead-text">Transformez vos enjeux stratégiques en expériences mémorables.</p><div class="detail-text"><p>Parce que chaque prise de parole compte, nous concevons l'écrin technique qui donnera de la portée à votre message.</p><p>Nous intervenons sur tous les formats corporate avec une rigueur absolue.</p></div><ul class="feature-list"><li><i class="fas fa-check"></i> Vœux & Cérémonies</li><li><i class="fas fa-check"></i> Conventions & Séminaires</li><li><i class="fas fa-check"></i> Inaugurations</li><li><i class="fas fa-check"></i> Lancements de produits</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_49293.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_49293.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4088.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4088.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/490860147_1218506650285133_5487751675451188613_n.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/490860147_1218506650285133_5487751675451188613_n.jpg')"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Échangeons sur votre projet</a></div></div></section>
-    
+    <section id="entreprise" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">ÉVÉNEMENT ENTREPRISE</h2><div class="detail-content"><p class="lead-text">Transformez vos enjeux stratégiques en expériences mémorables.</p><div class="detail-text"><p>Parce que chaque prise de parole compte, nous concevons l'écrin technique qui donnera de la portée à votre message.</p></div><ul class="feature-list"><li><i class="fas fa-check"></i> Vœux & Cérémonies</li><li><i class="fas fa-check"></i> Conventions & Séminaires</li></ul><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_49293.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_49293.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4088.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4088.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/490860147_1218506650285133_5487751675451188613_n.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/490860147_1218506650285133_5487751675451188613_n.jpg')"></div></div><div style="margin-top: 40px;"><a href="#contact" class="cta-btn">Échangeons sur votre projet</a></div></div></section>
     <section id="mapping" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">MAPPING VIDÉO</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_7286.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_7286.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0986.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0986.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0997.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2024/01/IMG_0997.jpg')"></div></div></div></section>
     <section id="defile" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">DÉFILÉ DE MODE</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Miss-Arras-2014.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Miss-Arras-2014.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fashion-show-a-Arc-1950.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fashion-show-a-Arc-1950.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Defile-Gerard-Darel-et-Pablo-2018-2.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Defile-Gerard-Darel-et-Pablo-2018-2.jpg')"></div></div></div></section>
     <section id="emotion" class="expertise-detail-section section-padding reveal"><h2 class="grid-title text-glow-anim">E-MOTION</h2><div class="detail-content"><div class="tech-gallery"><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fun-Radio-Live-Montbeliard-2019.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2019/07/Fun-Radio-Live-Montbeliard-2019.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2020/11/886.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2020/11/886.jpg')"></div><div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4107.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_4107.jpg')"></div></div></div></section>
@@ -322,19 +304,16 @@
             <form action="https://formsubmit.co/communication@prodjekt.fr" method="POST">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="_captcha" value="false">
-
                 <div class="form-grid">
                     <div class="input-group"><input type="text" name="Nom" id="nom" class="input-field" placeholder=" " required><label for="nom" class="input-label">Nom</label></div>
                     <div class="input-group"><input type="text" name="Prenom" id="prenom" class="input-field" placeholder=" " required><label for="prenom" class="input-label">Prénom</label></div>
                     <div class="input-group"><input type="text" name="Societe" id="societe" class="input-field" placeholder=" "><label for="societe" class="input-label">Société / Organisme</label></div>
                     <div class="input-group"><input type="email" name="Email" id="email" class="input-field" placeholder=" " required><label for="email" class="input-label">Email Professionnel</label></div>
-                    
                     <div class="input-group full-width">
                         <select name="Type_Evenement" id="type-event" class="input-field" required>
-                            <option value="" disabled selected>Type d'événement</option><option value="Festival">Festival</option><option value="Concert">Concert</option><option value="Inauguration">Inauguration</option><option value="Sport">Evénement sportif</option><option value="Conférence">Conférence</option><option value="Anniversaire">Anniversaire</option><option value="Séminaire">Séminaire</option><option value="Voeux">Vœux</option><option value="Defile">Défilé de mode</option><option value="Autre">Autre</option>
+                            <option value="" disabled selected>Type d'événement</option><option value="Festival">Festival</option><option value="Concert">Concert</option><option value="Inauguration">Inauguration</option><option value="Sport">Evénement sportif</option><option value="Conférence">Conférence</option><option value="Anniversaire">Anniversaire</option><option value="Séminaire">Séminaire</option><option value="Voeux">Voeux</option><option value="Defile">Défilé de mode</option><option value="Autre">Autre</option>
                         </select>
                     </div>
-
                     <div class="input-group"><input type="tel" name="Telephone" id="tel" class="input-field" placeholder=" "><label for="tel" class="input-label">Téléphone</label></div>
                     <div class="input-group"><input type="text" name="Date" id="date" class="input-field" placeholder=" " onfocus="(this.type='date')" onblur="(this.type='text')"><label for="date" class="input-label">Date de l'événement</label></div>
                     <div class="input-group full-width"><textarea name="Message" id="message" class="input-field" placeholder=" " required></textarea><label for="message" class="input-label">Détails techniques</label></div>
@@ -382,7 +361,7 @@
         menu.classList.toggle('active');
     }
 
-    /* STICKER 3D */
+    /* STICKER */
     const wrapper = document.querySelector('.sticker-wrapper');
     const sticker = document.querySelector('.sticker-30ans');
     if(wrapper) {
@@ -422,14 +401,9 @@
     window.addEventListener("scroll", reveal);
     reveal();
     
-    /* LIGHTBOX LOGIC */
-    function openLightbox(src) {
-        document.getElementById('lightbox-img').src = src;
-        document.getElementById('img-lightbox').style.display = 'flex';
-    }
-    function closeLightbox() {
-        document.getElementById('img-lightbox').style.display = 'none';
-    }
+    /* LIGHTBOX */
+    function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('img-lightbox').style.display = 'flex'; }
+    function closeLightbox() { document.getElementById('img-lightbox').style.display = 'none'; }
     document.querySelectorAll('.tech-item').forEach(item => {
         item.addEventListener('click', function() {
             let style = window.getComputedStyle(this).backgroundImage;
