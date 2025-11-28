@@ -10,9 +10,13 @@
     <style>
         /* --- STYLE GLOBAL --- */
         :root { --primary: #2D5BFF; --accent: #e0005b; --text-main: #ffffff; --text-muted: #cccccc; --glass: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.15); --footer-bg: rgba(10, 10, 10, 0.95); }
+        
+        /* RESET & FOND TRANSPARENT (POUR VOIR LA VIDÉO) */
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; font-family: 'Space Grotesk', sans-serif; }
-        body { background-color: #050505; color: var(--text-main); overflow-x: hidden; cursor: none; }
-        a, button, input, textarea, select { cursor: none; }
+        body { background-color: transparent; color: var(--text-main); overflow-x: hidden; cursor: none; }
+        html { scroll-behavior: smooth; background-color: #000; scroll-padding-top: 100px; }
+        
+        a, button, input, textarea, select, .trust-card, .tech-item { cursor: none; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; padding: 0; margin: 0; }
 
@@ -21,7 +25,7 @@
         .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--accent); position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9998; pointer-events: none; transition: width 0.2s, height 0.2s, background-color 0.2s; box-shadow: 0 0 20px rgba(224, 0, 91, 0.3); }
         body.hovering .cursor-outline { width: 70px; height: 70px; background-color: rgba(224, 0, 91, 0.1); border-color: white; mix-blend-mode: screen; }
 
-        /* FOND */
+        /* FOND VIDÉO */
         .global-video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
         .global-video-container video { width: 100%; height: 100%; object-fit: cover; }
         .global-video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.7); z-index: -9; }
@@ -57,9 +61,15 @@
         .content-section { padding: 50px 10%; display: flex; justify-content: center; }
         .content-box { background: rgba(20, 20, 20, 0.6); border: 1px solid var(--glass-border); border-radius: 30px; padding: 50px; backdrop-filter: blur(15px); max-width: 1000px; position: relative; }
         .content-box::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--accent); }
-        .content-box h2 { font-family: 'Syne'; font-size: 2rem; margin-bottom: 20px; color: white; }
+        
+        /* Correction couleur titre et marges */
+        .content-box h2 { font-family: 'Syne'; font-size: 2rem; margin-bottom: 20px; color: white; } /* Titre en blanc */
         .content-box p { color: #ccc; line-height: 1.8; margin-bottom: 20px; font-size: 1rem; }
         .highlight-text { color: white; font-weight: 700; }
+        
+        /* LIEN DANS LE TEXTE */
+        .brand-highlight-link { color: var(--accent); font-weight: 700; text-decoration: underline; transition: 0.3s; }
+        .brand-highlight-link:hover { color: white; text-shadow: 0 0 10px var(--accent); }
 
         /* GRILLE CONFIANCE */
         .trust-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 50px 10%; max-width: 1400px; margin: 0 auto; }
@@ -68,6 +78,18 @@
         .trust-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 20px; }
         .trust-card h3 { font-family: 'Syne'; font-size: 1.5rem; margin-bottom: 15px; }
         .trust-card p { color: #aaa; line-height: 1.6; font-size: 0.9rem; }
+
+        /* GALERIE 3D */
+        .tech-gallery { display: flex; width: 100%; height: 300px; gap: 10px; margin-top: 20px; }
+        .tech-item { flex: 1; border-radius: 20px; background-position: center; background-size: cover; background-repeat: no-repeat; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); filter: grayscale(100%) brightness(0.9); position: relative; border: 1px solid rgba(255,255,255,0.1); cursor: zoom-in; overflow: hidden; }
+        .tech-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); opacity: 1; transition: 0.4s; }
+        .tech-item:hover { flex: 4; filter: grayscale(0%) brightness(1.1); border-color: var(--accent); box-shadow: 0 0 40px rgba(224,0,91,0.3); z-index: 10; }
+        .tech-item:hover::after { opacity: 0; }
+
+        /* LIGHTBOX */
+        #img-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: flex; justify-content: center; align-items: center; display: none; }
+        #img-lightbox.active { display: flex; }
+        #lightbox-img { max-width: 90vw; max-height: 90vh; border: 2px solid var(--accent); border-radius: 10px; }
 
         /* FORMULAIRE */
         .contact-section { padding: 100px 5%; display: flex; justify-content: center; align-items: center; position: relative; border-top: 1px solid var(--glass-border); margin-top: 50px;}
@@ -96,7 +118,6 @@
         .contact-list li { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
         .contact-list li i { color: var(--accent); font-size: 1.1rem; }
         .contact-list li a { color: var(--text-muted); transition: 0.3s; }
-        .contact-list li a:hover { color: white; padding-left: 5px; }
         .social-links { display: flex; gap: 15px; justify-content: center; }
         .social-btn { width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
         .social-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
@@ -109,12 +130,14 @@
             .burger-menu-btn { display: block; }
             .cta-btn { font-size: 0.7rem; padding: 8px 12px; margin: 0 10px; }
             .page-title { font-size: 2.5rem; }
-            .content-box { padding: 30px; }
             .trust-grid-3 { grid-template-columns: 1fr; padding: 30px 5%; }
-            .form-grid { grid-template-columns: 1fr; }
+            .content-section { padding: 30px 5%; }
+            .content-box { padding: 30px; }
+            .footer-grid, .form-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
             .glass-form-container { padding: 20px; }
-            .footer-grid { grid-template-columns: 1fr; }
+            .tech-gallery { flex-direction: column; height: 500px; } 
+            .tech-item:hover { flex: 2; }
             .cursor-dot, .cursor-outline { display: none; }
             body { cursor: auto; }
         }
@@ -131,7 +154,7 @@
     <header>
         <a href="index.html" class="logo-wrapper"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="Logo Prodjekt" class="logo-img"></a>
         <nav class="desktop-nav"><ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="cle-en-main.html" class="active">Clé en main</a></li><li><a href="actualites.html">L'actu</a></li><li><a href="catalogue.html">Catalogue scénique</a></li></ul></nav>
-        <a href="#contact" class="cta-btn">Demander un Devis</a>
+        <a href="index.html#contact" class="cta-btn">Échangeons sur votre projet</a>
         <div class="burger-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </header>
 
@@ -148,25 +171,32 @@
     <section class="content-section reveal">
         <div class="content-box">
             <h2>Une solution sans contraintes</h2>
-            <p class="highlight-text">Vous cherchez une solution clé en main sans contraintes ?</p>
-            <p>Choix de scène, animateur, artistes, DJ, groupe de musique, sonorisation, lumières, effets spéciaux, loges, mobilier, traiteur, etc. <strong>PRODJEKT s'occupe de tout !</strong></p>
+            <p>Vous cherchez une solution clé en main sans contraintes ? Choix de scène, animateur, artistes, DJ, groupe de musique, sonorisation, lumières, effets spéciaux, loges, mobilier, traiteur, etc. <strong>PRODJEKT s'occupe de tout !</strong></p>
             <p style="margin-top:20px; font-size:0.9rem; color:#888;"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Basé dans les Hauts-de-France sur l’axe Lille-Paris et proche d’Arras.</p>
         </div>
     </section>
 
     <section class="content-section reveal">
-        <div class="content-box" style="border-color: var(--primary);">
-            <h2 style="color:var(--primary)">Des scènes pour tous vos événements</h2>
-            <p>Nos scènes sont conçues pour offrir une expérience sonore et visuelle unique. Que vous organisiez un festival, un concert, ou une fête privée, nous adaptons nos équipements à la taille de votre événement.</p>
+        <div class="content-box">
+            <h2>Des scènes pour tous vos événements</h2>
+            <p>Nos <a href="catalogue.html" class="brand-highlight-link">scènes</a> sont conçues pour offrir une expérience sonore et visuelle unique. Que vous organisiez un festival, un concert, ou une fête privée, nous adaptons nos équipements à la taille de votre événement.</p>
             <ul style="margin-top:20px; list-style:none; padding:0;">
                 <li style="margin-bottom:10px; display:flex; align-items:center; gap:10px;"><i class="fas fa-star" style="color:var(--primary)"></i> <strong>Plus de 20 ans de savoir-faire</strong> dans la fabrication et l’installation.</li>
                 <li style="margin-bottom:10px; display:flex; align-items:center; gap:10px;"><i class="fas fa-shield-alt" style="color:var(--primary)"></i> Scènes conformes aux normes en vigueur (arrêté du 25 juillet 2022).</li>
             </ul>
         </div>
     </section>
+    
+    <div class="reveal" style="text-align:center; padding: 0 10%;">
+        <div class="tech-gallery">
+            <div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/Firefly_un-buffet-de-traiteur-appetissant-avec-plein-de-mignardises-salees-dans-une-salle-de-833302.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/Firefly_un-buffet-de-traiteur-appetissant-avec-plein-de-mignardises-salees-dans-une-salle-de-833302.jpg')"></div>
+            <div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/Firefly_un-photographe-de-soiree-en-plein-action-salee-de-reception-ambiance-tamisee-lumie-974172.png');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/Firefly_un-photographe-de-soiree-en-plein-action-salee-de-reception-ambiance-tamisee-lumie-974172.png')"></div>
+            <div class="tech-item" style="background-image: url('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_1139-1.jpg');" onclick="openLightbox('https://www.prodjekt.fr/wp-content/uploads/2025/11/IMG_1139-1.jpg')"></div>
+        </div>
+    </div>
 
     <section class="reveal">
-        <h2 class="text-center text-glow-anim" style="margin-bottom: 20px; font-family:'Syne'; font-size:2.5rem; text-align:center;">FAITES-NOUS CONFIANCE</h2>
+        <h2 class="text-center text-glow-anim" style="margin-bottom: 20px; font-family:'Syne'; font-size:2.5rem; text-align:center; margin-top: 80px;">FAITES-NOUS CONFIANCE</h2>
         <div class="trust-grid-3">
             <div class="trust-card"><i class="fas fa-award trust-icon"></i><h3>Expertise Éprouvée</h3><p>Forts de notre expérience avec des événements emblématiques comme le <strong>Main Square Festival</strong>.</p></div>
             <div class="trust-card"><i class="fas fa-magic trust-icon"></i><h3>Solution Tout-en-un</h3><p>De la planification à la désinstallation, nous gérons tout.</p></div>
@@ -182,14 +212,9 @@
 
     <section id="contact" class="contact-section reveal">
         <div class="glass-form-container">
-            <div class="form-header">
-                <h2 class="text-glow-anim">CONTACTEZ-NOUS</h2>
-                <p>Remplissez ce formulaire pour une étude sur mesure.</p>
-            </div>
+            <div class="form-header"><h2 class="text-glow-anim">Échangeons sur votre projet</h2><p>Dites-nous tout, nous reviendrons vers vous rapidement.</p></div>
             <form action="https://formsubmit.co/communication@prodjekt.fr" method="POST">
-                <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="_captcha" value="false">
-
+                <input type="text" name="_honey" style="display:none"><input type="hidden" name="_captcha" value="false">
                 <div class="form-grid">
                     <div class="input-group"><input type="text" name="Nom" id="nom" class="input-field" placeholder=" " required><label for="nom" class="input-label">Nom</label></div>
                     <div class="input-group"><input type="text" name="Prenom" id="prenom" class="input-field" placeholder=" " required><label for="prenom" class="input-label">Prénom</label></div>
@@ -211,60 +236,54 @@
 
     <footer>
         <div class="footer-grid">
-            <div class="footer-col">
-                <img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="PRODJEKT" class="footer-logo">
-                <p>Partenaire technique de référence pour l'événementiel en France. Sonorisation, éclairage, vidéo et structure.</p>
-            </div>
-            <div class="footer-col">
-                <h4>CONTACT</h4>
-                <ul class="contact-list">
-                    <li><i class="fas fa-phone-alt"></i> <a href="tel:0391190063">03 91 19 00 63</a></li>
-                    <li><i class="fas fa-envelope"></i> <a href="mailto:welcome@prodjekt.fr">welcome@prodjekt.fr</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>SUIVEZ-NOUS</h4>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
-                    <a href="https://fr.linkedin.com/company/prodjekt" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
+            <div class="footer-col"><img src="https://www.prodjekt.fr/wp-content/uploads/2025/11/Logo-Prodjekt-blanc.png" alt="PRODJEKT" class="footer-logo"><p>Partenaire technique de référence.</p></div>
+            <div class="footer-col"><h4>CONTACT</h4><ul class="contact-list"><li><i class="fas fa-phone-alt"></i> <a href="tel:0391190063">03 91 19 00 63</a></li><li><i class="fas fa-envelope"></i> <a href="mailto:welcome@prodjekt.fr">welcome@prodjekt.fr</a></li></ul></div>
+            <div class="footer-col"><h4>SUIVEZ-NOUS</h4><div class="social-links"><a href="https://www.facebook.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/prodjektevent/" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a><a href="https://fr.linkedin.com/company/prodjekt" target="_blank" class="social-btn"><i class="fab fa-linkedin-in"></i></a></div></div>
         </div>
         <div class="copyright">&copy; 2025 PRODJEKT. Tous droits réservés.</div>
     </footer>
 
-<script>
-    function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');}
+    <div id="img-lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
 
-    function reveal() {
-        var reveals = document.querySelectorAll(".reveal");
-        for (var i = 0; i < reveals.length; i++) {
-            var windowHeight = window.innerHeight;
-            var elementTop = reveals[i].getBoundingClientRect().top;
-            var elementVisible = 150;
-            if (elementTop < windowHeight - elementVisible) {
-                reveals[i].classList.add("active");
+    <script>
+        function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');}
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
             }
         }
-    }
-    window.addEventListener("scroll", reveal);
-    reveal();
+        window.addEventListener("scroll", reveal);
+        reveal();
 
-    // Curseur
-    const cursorDot = document.querySelector('[data-cursor-dot]');
-    const cursorOutline = document.querySelector('[data-cursor-outline]');
-    window.addEventListener("mousemove", function (e) {
-        const posX = e.clientX; const posY = e.clientY;
-        cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
-        cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
-    });
-    const interactiveElements = document.querySelectorAll('a, button, .trust-card, select, input, textarea');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
-        el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
-    });
-</script>
+        /* LIGHTBOX ZOOM LOGIC */
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('img-lightbox').style.display = 'flex';
+        }
+        function closeLightbox() {
+            document.getElementById('img-lightbox').style.display = 'none';
+        }
 
+        /* CURSEUR */
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX; const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+        const interactiveElements = document.querySelectorAll('a, button, .trust-card, select, input, textarea, .tech-item');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
+            el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
+        });
+    </script>
 </body>
 </html>
