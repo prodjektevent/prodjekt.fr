@@ -1,0 +1,208 @@
+/* ====================================
+   RESET & BASE STYLES
+   ==================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: #000;
+    scroll-padding-top: 100px;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: transparent;
+    color: var(--text-main);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    position: relative;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-normal);
+    cursor: none;
+}
+
+button, input, textarea, select {
+    cursor: none;
+    font-family: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ====================================
+   CUSTOM CURSOR
+   ==================================== */
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: var(--z-cursor);
+    pointer-events: none;
+    box-shadow: 0 0 10px white;
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--accent);
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: calc(var(--z-cursor) - 1);
+    pointer-events: none;
+    transition: width var(--transition-fast), 
+                height var(--transition-fast), 
+                background-color var(--transition-fast);
+    box-shadow: var(--shadow-accent);
+}
+
+body.hovering .cursor-outline {
+    width: 70px;
+    height: 70px;
+    background-color: rgba(224, 0, 91, 0.1);
+    border-color: white;
+    mix-blend-mode: screen;
+}
+
+/* ====================================
+   VIDEO BACKGROUND
+   ==================================== */
+
+.global-video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--z-background);
+    overflow: hidden;
+}
+
+.global-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.global-video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 5, 5, 0.7);
+    z-index: var(--z-overlay);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
+}
+
+/* ====================================
+   UTILITY CLASSES
+   ==================================== */
+
+.text-glow-anim {
+    background: linear-gradient(to right, #ffffff 20%, var(--accent) 50%, var(--primary) 80%, #ffffff 100%);
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ====================================
+   RESPONSIVE - DISABLE CUSTOM CURSOR ON MOBILE
+   ==================================== */
+
+@media (max-width: 768px) {
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+    }
+    
+    body,
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    label {
+        cursor: auto !important;
+    }
+}
+
+/* ====================================
+   ACCESSIBILITY
+   ==================================== */
+
+/* Focus visible pour navigation clavier */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Amélioration du contraste */
+@media (prefers-contrast: high) {
+    :root {
+        --text-muted: #e0e0e0;
+    }
+}
+
+/* Respect des préférences d'animation */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

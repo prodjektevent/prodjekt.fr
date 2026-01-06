@@ -1,0 +1,167 @@
+/* ====================================
+   FORMULAIRE DE CONTACT
+   ==================================== */
+
+.contact-section {
+    padding: var(--spacing-xl) 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-top: 1px solid var(--glass-border);
+}
+
+.glass-form-container {
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(10, 10, 10, 0.7);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(30px);
+}
+
+.glass-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.form-header p {
+    color: var(--text-muted);
+}
+
+/* ====================================
+   INTEGRATION CONTACT FORM 7
+   ==================================== */
+
+.wpcf7-form-control-wrap {
+    display: block;
+    width: 100%;
+}
+
+.wpcf7 form .wpcf7-response-output {
+    border: 1px solid var(--accent);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border-radius: var(--radius-sm);
+    margin-top: var(--spacing-sm);
+    padding: 15px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.wpcf7-not-valid-tip {
+    color: var(--accent);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Checkboxes CF7 */
+.wpcf7-list-item {
+    margin: 0 15px 10px 0;
+    display: inline-block;
+}
+
+.wpcf7-list-item label {
+    cursor: pointer;
+    color: #ccc;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* ====================================
+   LIGHTBOX
+   ==================================== */
+
+#img-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: var(--z-lightbox);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+
+#img-lightbox.active {
+    display: flex;
+}
+
+#lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border: 2px solid var(--accent);
+    border-radius: var(--radius-sm);
+}
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+
+@media (max-width: 768px) {
+    header {
+        width: 100%;
+        padding: 10px 15px;
+        border-radius: 0;
+        top: 0;
+        background: rgba(10, 10, 10, 0.9);
+    }
+    
+    .logo-img {
+        max-height: 30px;
+    }
+    
+    .desktop-nav {
+        display: none !important;
+    }
+    
+    .burger-menu-btn {
+        display: block;
+    }
+    
+    .cta-btn {
+        font-size: 0.7rem;
+        padding: 8px 12px;
+        margin: 0 10px;
+    }
+    
+    .glass-form-container {
+        padding: var(--spacing-sm);
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
